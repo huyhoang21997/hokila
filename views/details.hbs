@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.png">
+    <title> {{title}} </title>
+    <link href="../stylesheets/bootstrap.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
+    <link href="../stylesheets/font-awesome.min.css" rel="stylesheet">
+    <link href="../stylesheets/sequence-looptheme.css" rel="stylesheet" media="all"/>
+    <link href="../stylesheets/style.css" rel="stylesheet">
+    <link href="../stylesheets/loginform.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="wrapper">
+      
+      <div class="clearfix"></div>
+      <div class="container_fullwidth">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="products-details">
+                {{!-- <div class="preview_image">
+                  <div class="preview-small">
+                    <img src= "{{main_src}}" alt="">
+                  </div>
+                </div> --}}
+                <div class="preview_image">
+                  <div class="preview-small">
+                    <img id="zoom_03" src="{{main_src}}_1.jpg" data-zoom-image="{{main_src}}_1.jpg" alt="">
+                  </div>
+                  <div class="thum-image">
+                    <ul id="gallery_01" class="prev-thum">
+                      <li>
+                        <a href="#" data-image="{{main_src}}_1.jpg" data-zoom-image="{{main_src}}_1.jpg">
+                          <img src="{{main_src}}_1.jpg" alt="">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" data-image="{{main_src}}_2.jpg" data-zoom-image="{{main_src}}_2.jpg">
+                          <img src="{{main_src}}_2.jpg" alt="">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" data-image="{{main_src}}_3.jpg" data-zoom-image="{{main_src}}_3.jpg">
+                          <img src="{{main_src}}_3.jpg" alt="">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" data-image="{{main_src}}_4.jpg" data-zoom-image="{{main_src}}_4.jpg">
+                          <img src="{{main_src}}_4.jpg" alt="">
+                        </a>
+                      </li>
+                      {{!-- <li>
+                        <a href="#" data-image="images/products/medium/products-05.jpg" data-zoom-image="images/products/Large/products-05.jpg">
+                          <img src="{{main_src}}" alt="">
+                        </a>
+                      </li> --}}
+                    </ul>
+                    {{!-- <a class="control-left" id="thum-prev" href="javascript:void(0);">
+                      <i class="fa fa-chevron-left">
+                      </i>
+                    </a>
+                    <a class="control-right" id="thum-next" href="javascript:void(0);">
+                      <i class="fa fa-chevron-right">
+                      </i>
+                    </a> --}}
+                  </div>
+                </div>
+                <div class="products-description">
+                  {{!-- <div class='offer'> {{main_offer}} </div> --}}
+                  <h5 class="name"> {{main_name}} </h5>
+                  <p> {{main_describe}} </p>
+                  <hr class="border">
+                  <div class="price">
+                    Price : 
+                    <span class="new_price">
+                      {{main_new_price}} <sup> ₫ </sup>
+                    </span>
+                    {{!-- <span class="old_price">
+                      {{main_old_price}} <sup> ₫ </sup>
+                    </span> --}}
+                  </div>
+                  <hr class="border">
+                  <div class="row">
+                    <div class="col-md-3 col-sm-3">Screen:</div>
+                    <div class="col-md-9 col-sm-9">{{main_screen}}</div>
+                  </div>
+                  <hr class="border">
+                  <div class="row">
+                    <div class="col-md-3 col-sm-3">Camera:</div>
+                    <div class="col-md-9 col-sm-9">{{main_camera}}</div>
+                  </div>
+                  <hr class="border">
+                  <div class="row">
+                    <div class="col-md-3 col-sm-3">Pin:</div>
+                    <div class="col-md-9 col-sm-9">{{main_pin}}</div>
+                  </div>
+                  <hr class="border">
+                  <div class="row">
+                    <div class="col-md-3 col-sm-3">Ram:</div>
+                    <div class="col-md-9 col-sm-9">{{main_ram}}</div>
+                  </div>
+                  <hr class="border">
+                  <div class="row">
+                    <div class="col-md-3 col-sm-3">CPU:</div>
+                    <div class="col-md-9 col-sm-9">{{main_cpu}}</div>
+                  </div>
+                  <hr class="border">
+                  <div class="row">
+                    <div class="col-md-3 col-sm-3">OS:</div>
+                    <div class="col-md-9 col-sm-9">{{main_os}}</div>
+                  </div>
+                  {{!-- <hr class="border"> --}}
+                  <div class="clearfix"></div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+              <div id="productsDetails" class="hot-products">
+                <h3 class="title">
+                  <strong> Similar </strong>
+                  Products
+                </h3>
+                <div class="control">
+                  <a id="prev_hot" class="prev" href="#">
+                    &lt;
+                  </a>
+                  <a id="next_hot" class="next" href="#">
+                    &gt;
+                  </a>
+                </div>
+
+                <ul id="hot">
+                  {{!-- <li>
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3">
+                        <div class="products">
+                          {{{item0}}}
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-3">
+                        <div class="products">
+                          {{{item1}}}
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-3">
+                        <div class="products">
+                          {{{item2}}}
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-3">
+                        <div class="products">
+                          {{{item0}}}
+                        </div>
+                      </div>
+                    </div>
+                  </li> --}}
+                  {{{items}}}
+                </ul>
+              </div>
+            </div>
+          </div>     
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <!-- Bootstrap core JavaScript==================================================-->
+    <script type="text/javascript" src="../javascripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
+    <script defer src="../javascripts/jquery.flexslider.js"></script>
+    <script type="text/javascript" src="../javascripts/jquery.carouFredSel-6.2.1-packed.js"></script>
+    <script type="text/javascript" src='../javascripts/jquery.elevatezoom.js'></script>
+    <script type="text/javascript" src="../javascripts/script.min.js" ></script>
+  </body>
+</html>
