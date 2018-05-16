@@ -8,6 +8,7 @@ const DOMParser = require('xmldom').DOMParser;
 const XMLSerializer = require('xmldom').XMLSerializer;
 const UserDetail = require('../models/account');
 const mongoose = require('mongoose');
+
 const mongoDB = 'mongodb://hokilashop:hokilashop@ds149329.mlab.com:49329/hokilashop';
 //Set up mongoose connection
 mongoose.connect(mongoDB);
@@ -29,68 +30,27 @@ function getProductsList() {
   });
 }
 getProductsList();
-// get HTML object
-function getHTMLDetail(i, s) {
-  var oldPrice = '', newPrice = '', offer = '';
-  if (productsList[i].other != null) {
-    //offer = '<div class="offer"> - ' + productsList[i].other*100 + '% </div>';
-    //oldPrice = '<span class="old_price">' + productsList[i].unitPrice + '<sup> $ </sup> </span>';
-    newPrice = '<span class="new_price">' + parseInt(productsList[i].unitPrice*(1 - productsList[i].other)) + '<sup> ₫ </sup> </span>';
-  }
-  else {
-    if (productsList[i].count == 0) {
-      offer = 'div class="offer">' + 'Limited' + '</div>';
-    }
-    newPrice = '<span class="new_price">' + productsList[i].unitPrice + '<sup> ₫ </sup> </span>';
-  }
-  var html_object = new DOMParser().parseFromString('\
-        <a href="/details/' + productsList[i].productId + '">'
-          + offer + '\
-          <div class="thumbnail">\
-            <img src="' + s + productsList[i].productId + '_1.jpg" alt="Product Name">\
-          </div>\
-          <div class="product-list-description">\
-            <div class="productname">' + productsList[i].productName + '</div>\
-            <p>' + productsList[i].describe + '</p>\
-            <div class="list_bottom">\
-              <div class="price">' + newPrice + oldPrice + '</div>\
-            </div>\
-          </div>\
-        </a>\
-  ');
-  return html_object;
-}
-// function getHTMLListitem(i, s) {
-//   var price, offer = '';
-//   if (productsList[i].other != null) {
-//     //offer = '<div class="offer"> - ' + productsList[i].other*100 + '% </div>';
-//     price = parseInt(productsList[i].unitPrice*(1 - productsList[i].other));
-//   }
-//   else {
-//     if (productsList[i].count == 0) {
-//       offer = 'div class="offer">' + 'Limited' + '</div>';
-//     }
-//     price = productsList[i].unitPrice;
-//   }
-//   var html_object = new DOMParser().parseFromString('\
-//         <a href="/details/' + productsList[i].productId + '">'
-//           + offer + '\
-//           <div class="thumbnail">\
-//             <img src="' + s + productsList[i].productId + '_1.jpg" alt="Product Name">\
-//           </div>\
-//           <div class="productname">' + productsList[i].productName + '</div>\
-//           <h4 class="price"> ₫ ' + price.toLocaleString('vi') + '</h4>\
-//         </a>\
-//   ');
-//   return html_object;
-// }
 
-function getHTMLListitem(id, s) {
+// Lấy danh sách sản phẩm tương tự (cùng hãng)
+// id: productId của sản phẩm đang hiển thị thông tin chi tiết
+// s: đường dẫn chứa file hình ảnh
+// producer: hãng sản xuất
+function getHTMLListitem(id, s, producer) {
   var html_object = '', col = 0, html_child = '';
+
   for (let i = 0; i < productsList.length; i++) {
+    if (productsList[i].producer !== producer) {
+      if (producer !== "") {
+        continue;
+      }
+
+      // Nếu chuỗi "hãng sản xuất" là chuỗi rỗng thì tức là lấy tất cả sản phẩm 
+    }
+
     if (productsList[i].productId !== id)
     {
       var price, offer = '';
+
       if (productsList[i].other != null) {
         //offer = '<div class="offer"> - ' + productsList[i].other*100 + '% </div>';
         price = parseInt(productsList[i].unitPrice*(1 - productsList[i].other));
@@ -101,6 +61,7 @@ function getHTMLListitem(id, s) {
         }
         price = productsList[i].unitPrice;
       }
+
       html_child += '\
         <div class="col-md-3 col-sm-3">\
           <div class="products">\
@@ -110,7 +71,7 @@ function getHTMLListitem(id, s) {
                 <img src="' + s + productsList[i].productId + '_1.jpg" alt="Product Name">\
               </div>\
               <div class="productname">' + productsList[i].productName + '</div>\
-              <h4 class="price"> ₫ ' + price.toLocaleString('vi') + '</h4>\
+              <h4 class="price"> ' + price.toLocaleString('vi') + ' ₫ </h4>\
             </a>\
           </div>\
         </div>\
@@ -118,6 +79,7 @@ function getHTMLListitem(id, s) {
 
       col++;
 
+      // Nếu số sản phẩm trong 1 list đầy (4) thì sẽ tạo 1 list mới
       if (col === 4) {
         html_child = '\
           <li>\
@@ -148,6 +110,22 @@ function getHTMLListitem(id, s) {
   return new DOMParser().parseFromString(html_object);
 }
 
+// Lấy tên các hãng smartphone để add vào smartphone menu
+function getTypeMenu() {
+  var html_object = '';
+  for (let i = 0; i < productsList.length; i++) {
+    if (html_object.search(productsList[i].producer) === -1) {
+      html_object += '\
+        <li>\
+          <a href="/smartphone/' + productsList[i].producer + '">' + productsList[i].producer + '</a>\
+        </li>\
+      ';
+    }
+  }
+
+  return new DOMParser().parseFromString(html_object);
+}
+
 // set up authentication
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(session({secret: 'mySecret'}));
@@ -173,9 +151,11 @@ passport.use(new LocalStrategy(
       });
   }
 ));
+
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
+
 passport.deserializeUser(function(id, done) {
   UserDetail.findById(id, function(err, user) {
     if (user) {
@@ -186,14 +166,17 @@ passport.deserializeUser(function(id, done) {
     }
   });
 });
+
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/',
   successRedirect: '/'
-}))
+}));
+
 router.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+
 /* Get details page. */
 router.get('/details/:productId', function(req, res, next) {
   var href = '', state = '', action = '';
@@ -206,9 +189,12 @@ router.get('/details/:productId', function(req, res, next) {
     state = 'Log in';
     action = "document.getElementById('id01').style.display='block'";
   }
+
   var product = productsList.filter(product => product.productId == req.params.productId);
+
   if (product != null) {
     var other = '', main_new_price = product[0].unitPrice;
+
     if (product[0].other != null) {
       //other = '- ' + product[0].other*100 + '%';
       main_new_price = main_new_price*(1 - product[0].other);
@@ -218,6 +204,7 @@ router.get('/details/:productId', function(req, res, next) {
         other = 'Limited';
       }
     }
+
     res.render('details', {
       title: product[0].productName,
       href: href,
@@ -234,18 +221,17 @@ router.get('/details/:productId', function(req, res, next) {
       main_ram: product[0].configuration.ram,
       main_cpu: product[0].configuration.cpu,
       main_os: product[0].configuration.os,
-      items: getHTMLListitem(product[0].productId, '../images/'),
-      title_header: 'Products Details',
+      items: getHTMLListitem(product[0].productId, '../images/', product[0].producer),
+      //title_header: 'Products Details',
+      smartphone_menu: getTypeMenu()
       //main_old_price: product[0].unitPrice.toLocaleString("vi"),
-      // item0: getHTMLListitem(0, '../images/'), 
-      // item1: getHTMLListitem(1, '../images/'), 
-      // item2: getHTMLListitem(2, '../images/')
     });
   }
   else {
     res.render('error', {});
   }
 });
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var href = '', state = '', action = '';
@@ -258,15 +244,39 @@ router.get('/', function(req, res, next) {
     state = 'Log in';
     action = "document.getElementById('id01').style.display='block'";
   }
-  res.render('index', {title: 'Product list', 
+
+  res.render('index', {title: 'All Products', 
     href: href,
     action: action,
     state: state,
-    items: getHTMLListitem(-1, '../images/'),
-    // item0: getHTMLDetail(0, 'images/'), 
-    // item1: getHTMLDetail(1, 'images/'), 
-    // item2: getHTMLDetail(2, 'images/'),
-    title_header: 'Products'
+    producer: 'All',
+    items: getHTMLListitem(-1, '../images/', ''),
+    //title_header: 'Products',
+    smartphone_menu: getTypeMenu()
   });
 });
+
+router.get('/smartphone/:productType', function(req, res, next) {
+  var href = '', state = '', action = '';
+  if (req.isAuthenticated()) {
+    href = '/logout';
+    state = req.user.username + ' - Log out';
+  }
+  else {
+    href = '#';
+    state = 'Log in';
+    action = "document.getElementById('id01').style.display='block'";
+  }
+
+  res.render('index', {title: req.params.productType + ' Products', 
+    href: href,
+    action: action,
+    state: state,
+    producer: req.params.productType,
+    items: getHTMLListitem(-1, '../images/', req.params.productType),
+    //title_header: 'Products',
+    smartphone_menu: getTypeMenu()
+  });
+});
+
 module.exports = router;
