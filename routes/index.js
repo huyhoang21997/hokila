@@ -8,7 +8,6 @@ const DOMParser = require('xmldom').DOMParser;
 const XMLSerializer = require('xmldom').XMLSerializer;
 const UserDetail = require('../models/account');
 const mongoose = require('mongoose');
-
 const mongoDB = 'mongodb://hokilashop:hokilashop@ds149329.mlab.com:49329/hokilashop';
 //Set up mongoose connection
 mongoose.connect(mongoDB);
@@ -31,17 +30,29 @@ function getProductsList() {
 }
 getProductsList();
 // Lấy danh sách sản phẩm tương tự (cùng hãng)
-// s: đường dẫn chứa file hình ảnh
-function getHTMLSimilarProduct(product, s) {
+// url: đường dẫn chứa file hình ảnh
+function getHTMLProduct(product, producer, name, url) {
   var html_object = '', col = 0, html_child = '';
   var list = [];
-  // lay danh sach cac san pham tuong tu de hien thi
+  // lay ds san pham
   for (var i = 0; i < productsList.length; i++)
   {
-    if (product == null) {
-      list.push(productsList[i]);
+    if (product != null) {
+      if (productsList[i] != product) {
+        list.push(productsList[i]);
+      }
     }
-    else if (productsList[i].producer == product.producer && productsList[i] != product) {
+    else if (producer != null) {
+      if (productsList[i].producer == producer) {
+        list.push(productsList[i]);
+      }
+    }
+    else if (name != null) {
+      if (productsList[i].productName.toLowerCase().includes(name)) {
+        list.push(productsList[i]);
+      }
+    }
+    else {
       list.push(productsList[i]);
     }
   }
@@ -66,7 +77,7 @@ function getHTMLSimilarProduct(product, s) {
             <a href="/details/' + list[i].productId + '">'
               + offer + '\
               <div class="thumbnail">\
-                <img src="' + s + list[i].productId + '_1.jpg" alt="Product Name">\
+                <img src="' + url + list[i].productId + '_1.jpg" alt="Product Name">\
               </div>\
               <div class="productname">' + list[i].productName + '</div>\
               <h4 class="price"> ' + price.toLocaleString('vi') + ' ₫ </h4>\
@@ -91,14 +102,6 @@ function getHTMLSimilarProduct(product, s) {
   }
   return new DOMParser().parseFromString(html_object);
 }
-
-function getHTMLByProducer(producer, s) {
-  var product = {
-    producer: producer
-  }
-  return getHTMLSimilarProduct(product, s);
-} 
-
 // Lấy tên các hãng smartphone để add vào smartphone menu
 function getTypeMenu() {
   var html_object = '';
@@ -113,7 +116,6 @@ function getTypeMenu() {
   }
   return new DOMParser().parseFromString(html_object);
 }
-
 // set up authentication
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(session({secret: 'mySecret'}));
@@ -139,11 +141,9 @@ passport.use(new LocalStrategy(
       });
   }
 ));
-
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
-
 passport.deserializeUser(function(id, done) {
   UserDetail.findById(id, function(err, user) {
     if (user) {
@@ -154,17 +154,35 @@ passport.deserializeUser(function(id, done) {
     }
   });
 });
-
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/',
   successRedirect: '/'
 }));
-
 router.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
-
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  var href = '', state = '', action = '';
+  if (req.isAuthenticated()) {
+    href = '/logout';
+    state = req.user.username + ' - Log out';
+  }
+  else {
+    href = '#';
+    state = 'Log in';
+    action = "document.getElementById('id01').style.display='block'";
+  }
+  res.render('index', {title: 'All Products', 
+    href: href,
+    action: action,
+    state: state,
+    producer: 'All',
+    items: getHTMLProduct(null, null, null, '../images/'),
+    smartphone_menu: getTypeMenu()
+  });
+});
 /* Get details page. */
 router.get('/details/:productId', function(req, res, next) {
   var href = '', state = '', action = '';
@@ -209,7 +227,7 @@ router.get('/details/:productId', function(req, res, next) {
       main_ram: product.configuration.ram,
       main_cpu: product.configuration.cpu,
       main_os: product.configuration.os,
-      items: getHTMLSimilarProduct(product, '../images/'),
+      items: getHTMLProduct(product, null, null, '../images/'),
       smartphone_menu: getTypeMenu()
     });
   }
@@ -217,29 +235,7 @@ router.get('/details/:productId', function(req, res, next) {
     res.render('error', {});
   }
 });
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  var href = '', state = '', action = '';
-  if (req.isAuthenticated()) {
-    href = '/logout';
-    state = req.user.username + ' - Log out';
-  }
-  else {
-    href = '#';
-    state = 'Log in';
-    action = "document.getElementById('id01').style.display='block'";
-  }
-  res.render('index', {title: 'All Products', 
-    href: href,
-    action: action,
-    state: state,
-    producer: 'All',
-    items: getHTMLSimilarProduct(null, '../images/'),
-    smartphone_menu: getTypeMenu()
-  });
-});
-
+/* GET products list by producer*/
 router.get('/smartphone/:producer', function(req, res, next) {
   var href = '', state = '', action = '';
   if (req.isAuthenticated()) {
@@ -257,9 +253,33 @@ router.get('/smartphone/:producer', function(req, res, next) {
     action: action,
     state: state,
     producer: req.params.producer,
-    items: getHTMLByProducer(req.params.producer, '../images/'),
+    items: getHTMLProduct(null, req.params.producer, null, '../images/'),
     smartphone_menu: getTypeMenu()
   });
 });
+/* GET products list by name*/
+router.get('/search', function(req, res) {
+  console.log('');
+  console.log(req.query.name);
+  console.log('');
+  var href = '', state = '', action = '';
+  if (req.isAuthenticated()) {
+    href = '/logout';
+    state = req.user.username + ' - Log out';
+  }
+  else {
+    href = '#';
+    state = 'Log in';
+    action = "document.getElementById('id01').style.display='block'";
+  }
 
+  res.render('index', {title: req.query.name.toLowerCase() + ' Products', 
+    href: href,
+    action: action,
+    state: state,
+    producer: req.query.name.toLowerCase(),
+    items: getHTMLProduct(null, null, req.query.name.toLowerCase(), '../images/'),
+    smartphone_menu: getTypeMenu()
+  });
+});
 module.exports = router;
