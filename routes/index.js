@@ -30,85 +30,74 @@ function getProductsList() {
   });
 }
 getProductsList();
-
 // Lấy danh sách sản phẩm tương tự (cùng hãng)
-// id: productId của sản phẩm đang hiển thị thông tin chi tiết
 // s: đường dẫn chứa file hình ảnh
-// producer: hãng sản xuất
-function getHTMLListitem(id, s, producer) {
+function getHTMLSimilarProduct(product, s) {
   var html_object = '', col = 0, html_child = '';
-
-  for (let i = 0; i < productsList.length; i++) {
-    if (productsList[i].producer !== producer) {
-      if (producer !== "") {
-        continue;
-      }
-
-      // Nếu chuỗi "hãng sản xuất" là chuỗi rỗng thì tức là lấy tất cả sản phẩm 
+  var list = [];
+  // lay danh sach cac san pham tuong tu de hien thi
+  for (var i = 0; i < productsList.length; i++)
+  {
+    if (product == null) {
+      list.push(productsList[i]);
     }
-
-    if (productsList[i].productId !== id)
+    else if (productsList[i].producer == product.producer && productsList[i] != product) {
+      list.push(productsList[i]);
+    }
+  }
+  // hien thi danh sach san pham tuong tu
+  for (var i = 0; i < list.length; i++) {
+    var price, offer = '';
+    if (list[i].other != null) // co khuyen mai
     {
-      var price, offer = '';
-
-      if (productsList[i].other != null) {
-        //offer = '<div class="offer"> - ' + productsList[i].other*100 + '% </div>';
-        price = parseInt(productsList[i].unitPrice*(1 - productsList[i].other));
+      offer = 'div class="offer"> - ' + parseFloat(list[i].other)*100 + '% </div>';
+      price = parseInt(productsList[i].unitPrice*(1 - productsList[i].other));
+    }
+    else {
+      price = list[i].unitPrice;
+      if (list[i].count == 0) // het hang
+      {
+        offer = 'div class="offer">' + 'Limited' + '</div>';
       }
-      else {
-        if (productsList[i].count == 0) {
-          offer = 'div class="offer">' + 'Limited' + '</div>';
-        }
-        price = productsList[i].unitPrice;
-      }
-
-      html_child += '\
+    }
+    html_child += '\
         <div class="col-md-3 col-sm-3">\
           <div class="products">\
-            <a href="/details/' + productsList[i].productId + '">'
+            <a href="/details/' + list[i].productId + '">'
               + offer + '\
               <div class="thumbnail">\
-                <img src="' + s + productsList[i].productId + '_1.jpg" alt="Product Name">\
+                <img src="' + s + list[i].productId + '_1.jpg" alt="Product Name">\
               </div>\
-              <div class="productname">' + productsList[i].productName + '</div>\
+              <div class="productname">' + list[i].productName + '</div>\
               <h4 class="price"> ' + price.toLocaleString('vi') + ' ₫ </h4>\
             </a>\
           </div>\
         </div>\
       ';
-
-      col++;
-
-      // Nếu số sản phẩm trong 1 list đầy (4) thì sẽ tạo 1 list mới
-      if (col === 4) {
-        html_child = '\
-          <li>\
-            <div class="row">' 
-              + html_child + 
-            '</div>\
-          </li>\
-        ';
-
-        html_object += html_child;
-        html_child = '';
-        col = 0;
-      }
+    col++;
+    // Nếu số sản phẩm trong 1 list đầy (4) hoac het list thì sẽ tạo 1 list mới
+    if (col === 4 || i == list.length - 1) {
+      html_child = '\
+        <li>\
+          <div class="row">' 
+            + html_child + 
+          '</div>\
+        </li>\
+      ';
+      html_object += html_child;
+      html_child = '';
+      col = 0;
     }
   }
-
-  if (col !== 0) {
-    html_child = '\
-      <li>\
-        <div class="row">' 
-          + html_child + 
-        '</div>\
-      </li>\
-    ';
-    html_object += html_child;
-  }
-  
   return new DOMParser().parseFromString(html_object);
 }
+
+function getHTMLByProducer(producer, s) {
+  var product = {
+    producer: producer
+  }
+  return getHTMLSimilarProduct(product, s);
+} 
 
 // Lấy tên các hãng smartphone để add vào smartphone menu
 function getTypeMenu() {
@@ -122,7 +111,6 @@ function getTypeMenu() {
       ';
     }
   }
-
   return new DOMParser().parseFromString(html_object);
 }
 
@@ -190,41 +178,39 @@ router.get('/details/:productId', function(req, res, next) {
     action = "document.getElementById('id01').style.display='block'";
   }
 
-  var product = productsList.filter(product => product.productId == req.params.productId);
+  var product = productsList.find(product => product.productId == req.params.productId);
 
   if (product != null) {
-    var other = '', main_new_price = product[0].unitPrice;
+    var other = '', main_new_price = product.unitPrice;
 
-    if (product[0].other != null) {
+    if (product.other != null) {
       //other = '- ' + product[0].other*100 + '%';
-      main_new_price = main_new_price*(1 - product[0].other);
+      main_new_price = main_new_price*(1 - product.other);
     }
     else {
-      if (product[0].count == 0) {
+      if (product.count == 0) {
         other = 'Limited';
       }
     }
 
     res.render('details', {
-      title: product[0].productName,
+      title: product.productName,
       href: href,
       action: action,
       state: state,
       main_offer: other,
-      main_src: '../images/' + product[0].productId, 
-      main_name: product[0].productName,
-      main_describe: product[0].describe,
+      main_src: '../images/' + product.productId, 
+      main_name: product.productName,
+      main_describe: product.describe,
       main_new_price: main_new_price.toLocaleString("vi"),
-      main_screen: product[0].configuration.screen,
-      main_camera: product[0].configuration.camera,
-      main_pin: product[0].configuration.pin,
-      main_ram: product[0].configuration.ram,
-      main_cpu: product[0].configuration.cpu,
-      main_os: product[0].configuration.os,
-      items: getHTMLListitem(product[0].productId, '../images/', product[0].producer),
-      //title_header: 'Products Details',
+      main_screen: product.configuration.screen,
+      main_camera: product.configuration.camera,
+      main_pin: product.configuration.pin,
+      main_ram: product.configuration.ram,
+      main_cpu: product.configuration.cpu,
+      main_os: product.configuration.os,
+      items: getHTMLSimilarProduct(product, '../images/'),
       smartphone_menu: getTypeMenu()
-      //main_old_price: product[0].unitPrice.toLocaleString("vi"),
     });
   }
   else {
@@ -244,19 +230,17 @@ router.get('/', function(req, res, next) {
     state = 'Log in';
     action = "document.getElementById('id01').style.display='block'";
   }
-
   res.render('index', {title: 'All Products', 
     href: href,
     action: action,
     state: state,
     producer: 'All',
-    items: getHTMLListitem(-1, '../images/', ''),
-    //title_header: 'Products',
+    items: getHTMLSimilarProduct(null, '../images/'),
     smartphone_menu: getTypeMenu()
   });
 });
 
-router.get('/smartphone/:productType', function(req, res, next) {
+router.get('/smartphone/:producer', function(req, res, next) {
   var href = '', state = '', action = '';
   if (req.isAuthenticated()) {
     href = '/logout';
@@ -268,13 +252,12 @@ router.get('/smartphone/:productType', function(req, res, next) {
     action = "document.getElementById('id01').style.display='block'";
   }
 
-  res.render('index', {title: req.params.productType + ' Products', 
+  res.render('index', {title: req.params.producer + ' Products', 
     href: href,
     action: action,
     state: state,
-    producer: req.params.productType,
-    items: getHTMLListitem(-1, '../images/', req.params.productType),
-    //title_header: 'Products',
+    producer: req.params.producer,
+    items: getHTMLByProducer(req.params.producer, '../images/'),
     smartphone_menu: getTypeMenu()
   });
 });
