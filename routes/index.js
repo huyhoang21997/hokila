@@ -38,7 +38,7 @@ function getHTMLProduct(product, producer, name, url) {
   for (var i = 0; i < productsList.length; i++)
   {
     if (product != null) {
-      if (productsList[i] != product) {
+      if (productsList[i] != product && productsList[i].producer == product.producer) {
         list.push(productsList[i]);
       }
     }
@@ -101,6 +101,26 @@ function getHTMLProduct(product, producer, name, url) {
     }
   }
   return new DOMParser().parseFromString(html_object);
+}
+function getHTMLRowTable() {
+  var html_string = '';
+  for (var i = 0; i < productsList.length; i++) {
+    html_string += '<tr>';
+    html_string += '<td class="tg-yw4l">' + productsList[i].productId + '</td>';
+    html_string += '<td class="tg-6k2t">' + productsList[i].productName + '</td>';
+    html_string += '<td class="tg-yw4l">' + productsList[i].describe + '</td>';
+    html_string += '<td class="tg-6k2t">' + productsList[i].producer + '</td>';
+    html_string += '<td class="tg-yw4l">' + productsList[i].unitPrice + '</td>';
+    html_string += '<td class="tg-6k2t">' + productsList[i].count + '</td>';
+    html_string += '<td class="tg-yw4l">' + productsList[i].configuration.screen + '</td>';
+    html_string += '<td class="tg-6k2t">' + productsList[i].configuration.camera + '</td>';
+    html_string += '<td class="tg-yw4l">' + productsList[i].configuration.pin + '</td>';
+    html_string += '<td class="tg-6k2t">' + productsList[i].configuration.ram + '</td>';
+    html_string += '<td class="tg-yw4l">' + productsList[i].configuration.cpu + '</td>';
+    html_string += '<td class="tg-6k2t">' + productsList[i].configuration.os + '</td>';
+    html_string += '</tr>';
+  }
+  return new DOMParser().parseFromString(html_string);
 }
 // Lấy tên các hãng smartphone để add vào smartphone menu
 function getTypeMenu() {
@@ -166,22 +186,23 @@ router.get('/logout', function(req, res){
 router.get('/', function(req, res, next) {
   var href = '', state = '', action = '';
   if (req.isAuthenticated()) {
-    href = '/logout';
-    state = req.user.username + ' - Log out';
+    res.render('manager', {title: 'Manager', 
+      href: '/logout',
+      state: req.user.username + ' - Log out',
+      items: getHTMLRowTable(),
+      smartphone_menu: getTypeMenu()
+    });
   }
   else {
-    href = '#';
-    state = 'Log in';
-    action = "document.getElementById('id01').style.display='block'";
+    res.render('index', {title: 'All Products', 
+      href: '#',
+      action: "document.getElementById('id01').style.display='block'",
+      state: 'Log in',
+      producer: 'All',
+      items: getHTMLProduct(null, null, null, '../images/'),
+      smartphone_menu: getTypeMenu()
+    });
   }
-  res.render('index', {title: 'All Products', 
-    href: href,
-    action: action,
-    state: state,
-    producer: 'All',
-    items: getHTMLProduct(null, null, null, '../images/'),
-    smartphone_menu: getTypeMenu()
-  });
 });
 /* Get details page. */
 router.get('/details/:productId', function(req, res, next) {
@@ -259,9 +280,6 @@ router.get('/smartphone/:producer', function(req, res, next) {
 });
 /* GET products list by name*/
 router.get('/search', function(req, res) {
-  console.log('');
-  console.log(req.query.name);
-  console.log('');
   var href = '', state = '', action = '';
   if (req.isAuthenticated()) {
     href = '/logout';
