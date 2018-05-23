@@ -72,22 +72,55 @@ function getHTMLProduct(productsList, product, producer, name, url) {
 }
 function getHTMLRowTable(productsList) {
   var html_string = '';
+  var configuration = '';
+  var describe;
   for (var i = 0; i < productsList.length; i++) {
-    html_string += '<tr>';
-    html_string += '<td class="tg-yw4l">' + productsList[i].productId + '</td>';
-    html_string += '<td class="tg-6k2t">' + productsList[i].productName + '</td>';
-    html_string += '<td class="tg-yw4l">' + productsList[i].describe + '</td>';
-    html_string += '<td class="tg-6k2t">' + productsList[i].producer + '</td>';
-    html_string += '<td class="tg-yw4l">' + productsList[i].unitPrice + '</td>';
-    html_string += '<td class="tg-6k2t">' + productsList[i].count + '</td>';
-    html_string += '<td class="tg-yw4l">' + productsList[i].configuration.screen + '</td>';
-    html_string += '<td class="tg-6k2t">' + productsList[i].configuration.camera + '</td>';
-    html_string += '<td class="tg-yw4l">' + productsList[i].configuration.pin + '</td>';
-    html_string += '<td class="tg-6k2t">' + productsList[i].configuration.ram + '</td>';
-    html_string += '<td class="tg-yw4l">' + productsList[i].configuration.cpu + '</td>';
-    html_string += '<td class="tg-6k2t">' + productsList[i].configuration.os + '</td>';
-    html_string += '</tr>';
+      html_string += '<tr ondblclick="editOrDelete(\''
+      + productsList[i].productName + '\',\''
+      + productsList[i].productId + '\',\''
+      + productsList[i].producer + '\',\''
+      + productsList[i].unitPrice + '\',\''
+      + productsList[i].count + '\',\''
+      + productsList[i].describe + '\',\''
+      + productsList[i].configuration.screen + '\',\''
+      + productsList[i].configuration.camera + '\',\''
+      + productsList[i].configuration.pin + '\',\''
+      + productsList[i].configuration.ram + '\',\''
+      + productsList[i].configuration.cpu + '\',\''
+      + productsList[i].configuration.os + '\',\''
+      + '\')">';
+
+      html_string += '<td>' + productsList[i].productName + '</td>';
+      html_string += '<td>' + productsList[i].productId + '</td>';
+      html_string += '<td>' + productsList[i].producer + '</td>';      
+      html_string += '<td>' + productsList[i].unitPrice.toLocaleString('vi') + '₫</td>';
+      html_string += '<td>' + productsList[i].count + '</td>';
+
+      configuration += 'Screen: ' + productsList[i].configuration.screen;
+      configuration += '\nCamera: ' + productsList[i].configuration.camera;
+      configuration += '\nPin: ' + productsList[i].configuration.pin;
+      configuration += '\nRam: ' + productsList[i].configuration.ram;
+      configuration += '\nCPU:' + productsList[i].configuration.cpu;
+      configuration += '\nOS: ' + productsList[i].configuration.os;
+
+      html_string += '<td><span class="view" title=\'' + configuration + '\' onclick="viewConfiguration(\''
+      + productsList[i].productName + '\',\''
+      + productsList[i].configuration.screen + '\',\''
+      + productsList[i].configuration.camera + '\',\''
+      + productsList[i].configuration.pin + '\',\''
+      + productsList[i].configuration.ram + '\',\''
+      + productsList[i].configuration.cpu + '\',\''
+      + productsList[i].configuration.os + '\',\''
+      + '\')"><i class="fa fa-eye view" aria-hidden="true"></i></span></td>';
+
+      configuration = '';
+      describe = productsList[i].describe;
+      html_string += '<td><span class="view" title=\'' + describe + 
+      '\' onclick="viewDescribe(\'' + productsList[i].productName + '\',\'' + describe + 
+      '\')"><i class="fa fa-eye view" aria-hidden="true"></i></span></td>';
+      html_string += '</tr>';
   }
+  
   return new DOMParser().parseFromString(html_string);
 }
 function getTypeMenu(productsList) {

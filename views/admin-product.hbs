@@ -1,5 +1,3 @@
-<link href="../stylesheets/admin-product.css" rel="stylesheet">
-
 <div class="wrapper">
     <table>
         <thead>
@@ -13,13 +11,11 @@
                 <th style="width: 109px;">Describe</th>
             </tr>
         </thead>
-
         <tbody>
             {{{items}}}
         </tbody>
     </table>
 </div>
-
 <button class="add-new-product" title="Add New Product" onclick="document.getElementById('id03').style.display='block'">
     <i class="fa fa-plus" aria-hidden="true"></i>
 </button>
@@ -69,10 +65,9 @@
         </div>
     </div>
 </div>
-
 <div class="usermenu">
     <div id="id03" class="modal">
-        <form class="modal-content animate" method="post" action="/admin/">
+        <form class="modal-content animate" method="post" action="/add">
             <div class="imgcontainer">
                 <button type="reset" onclick="document.getElementById('id03').style.display='none'" class="close" title="Close">
                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -80,7 +75,6 @@
             </div>
             <div class="view-container">
                 <h1 style="text-align:center">Add New Product</h1>
-
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3 col-sm-3">
@@ -192,7 +186,6 @@
         </form>
     </div>
 </div>
-
 <div class="usermenu">
     <div id="id04" class="modal">
         <form class="modal-content animate" id="myForm" method="post">
@@ -203,7 +196,6 @@
             </div>
             <div class="view-container">
                 <h1 style="text-align:center">Edit Or Delete Product</h1>
-
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3 col-sm-3">
@@ -304,10 +296,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-sm-4">
-                            <button type="submit" onclick="document.getElementById('myForm').action = '/admin/edit'">Edit Product</button>
+                            <button type="submit" onclick="document.getElementById('myForm').action = '/edit'">Edit Product</button>
                         </div>
                         <div class="col-md-4 col-sm-4">
-                            <button class="delBtn" onclick="document.getElementById('myForm').action = '/admin/delete'" type="submit">Delete Product</button>
+                            <button class="delBtn" onclick="document.getElementById('myForm').action = '/delete'" type="submit">Delete Product</button>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <button class="cancelbtn" onclick="document.getElementById('id04').style.display='none'">Cancel</button>
@@ -318,40 +310,3 @@
         </form>
     </div>
 </div>
-
-<script>
-    function viewDescribe(name, describe) {
-        document.getElementById('describe-view').innerHTML = describe;
-        document.getElementById('describe-name').innerHTML = name;
-        
-        document.getElementById('id01').style.display='block';
-    }
-
-    function viewConfiguration(name, screen, camera, pin, ram, cpu, os) {
-        document.getElementById('screen-view').innerHTML = screen;
-        document.getElementById('camera-view').innerHTML = camera;
-        document.getElementById('pin-view').innerHTML = pin;
-        document.getElementById('ram-view').innerHTML = ram;
-        document.getElementById('cpu-view').innerHTML = cpu;
-        document.getElementById('os-view').innerHTML = os;
-        document.getElementById('config-name').innerHTML = name;
-        
-        document.getElementById('id02').style.display='block';
-    }
-
-    function editOrDelete(name, id, producer, price, count, describe, scn, cam, pin, ram, cpu, os) {
-        document.getElementById("product_name").value = name;
-        document.getElementById('product_id').value = id;
-        document.getElementById('producer').value = producer;
-        document.getElementById('price').value = price;
-        document.getElementById('count').value = count;
-        document.getElementById('describe').value = describe;
-        document.getElementById('screen').value = scn;
-        document.getElementById('camera').value = cam;
-        document.getElementById('pin').value = pin;
-        document.getElementById('ram').value = ram;
-        document.getElementById('cpu').value = cpu;
-        document.getElementById('os').value = os;
-        document.getElementById('id04').style.display='block';
-    }
-</script>

@@ -19,14 +19,14 @@ productSchema.find({}).exec(function(err, productsList) {
   if (!err) {
     console.log('Da tao xong server');
     // controller
-    router.get('/', function(req, res, next) {
+    router.get('/', function(req, res) {
       var href = '', state = '', action = '';
       if (req.isAuthenticated()) {
-        res.render('manager', {title: 'Manager', 
-          href: '/logout',
-          state: req.user.username + ' - Log out',
-          items: getHTMLRowTable(productsList),
-          smartphone_menu: getTypeMenu(productsList)
+        res.render('admin-product', {
+          layout: 'admin-layout',
+          title: "Manage Products",
+          name: req.user.username,
+          items: getHTMLRowTable(productsList)
         });
       }
       else {
@@ -40,6 +40,105 @@ productSchema.find({}).exec(function(err, productsList) {
         });
       }
     });
+    router.post('/add', function(req, res) {
+      if(req.isAuthenticated()) {
+        var product = {
+          productName: req.body.product_name,
+          productId: req.body.product_id,
+          producer: req.body.producer,
+          unitPrice: req.body.price,
+          count: req.body.count,
+          describe: req.body.describe,
+          configuration: {
+            screen: req.body.screen,
+            camera: req.body.camera,
+            pin: req.body.pin,
+            ram: req.body.ram,
+            cpu: req.body.cpu,
+            os: req.body.os
+          }
+        };
+        var new_product = new productSchema(product);
+        new_product.save(function(err) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            productsList.push(product);
+          }
+        });
+        res.redirect('/');
+      }
+    });
+    router.post('/edit', function(req, res) {
+      if(req.isAuthenticated()) {
+        var product = {
+          productName: req.body.product_name,
+          productId: req.body.product_id,
+          producer: req.body.producer,
+          unitPrice: req.body.price,
+          count: req.body.count,
+          describe: req.body.describe,
+          configuration: {
+            screen: req.body.screen,
+            camera: req.body.camera,
+            pin: req.body.pin,
+            ram: req.body.ram,
+            cpu: req.body.cpu,
+            os: req.body.os
+          }
+        };
+        productSchema.updateOne(
+          {productId: req.body.product_id},
+          {
+            $set: {
+              productName: req.body.product_name,
+              producer: req.body.producer,
+              unitPrice: req.body.price,
+              count: req.body.count,
+              describe: req.body.describe,
+              configuration: {
+                screen: req.body.screen,
+                camera: req.body.camera,
+                pin: req.body.pin,
+                ram: req.body.ram,
+                cpu: req.body.cpu,
+                os: req.body.os
+            }
+          }
+        }, function(err) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            for (var i = 0; i < productsList.length; i++) {
+              if (productsList[i].productId === req.body.product_id) {
+                productsList[i] = product;
+                break;
+              }
+            }          }
+        });
+        res.redirect('/');
+      }
+    });
+    router.post('/delete', function(req, res) {
+      if(req.isAuthenticated()) {
+        productSchema.deleteOne({productId: req.body.product_id}, function(err) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            for (var i = 0; i < productsList.length; i++) {
+              if (productsList[i].productId === req.body.product_id) {
+                productsList.splice(i, 1);
+                break;
+              }
+            }
+          }
+        });
+        res.redirect('/');
+      }
+    });
     router.post('/login', passport.authenticate('local', {
       failureRedirect: '/',
       successRedirect: '/'
@@ -48,7 +147,7 @@ productSchema.find({}).exec(function(err, productsList) {
       req.logout();
       res.redirect('/');
     });
-    router.get('/details/:productId', function(req, res, next) {
+    router.get('/details/:productId', function(req, res) {
       var href = '', state = '', action = '';
       if (req.isAuthenticated()) {
         href = '/logout';
@@ -99,7 +198,7 @@ productSchema.find({}).exec(function(err, productsList) {
         res.render('error', {});
       }
     });
-    router.get('/smartphone/:producer', function(req, res, next) {
+    router.get('/smartphone/:producer', function(req, res) {
       var href = '', state = '', action = '';
       if (req.isAuthenticated()) {
         href = '/logout';
