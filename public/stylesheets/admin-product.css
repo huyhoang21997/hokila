@@ -1,0 +1,119 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #666;
+}
+
+.wrapper {
+    background: #fff;
+    padding: 40px;
+    border-radius: 5px;
+    margin-right: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,.25);
+}
+
+table, thead, tbody, tr, th, td {
+    vertical-align: middle;
+}
+
+tr {
+    border-top: 1px solid #dcdcdc;
+    line-height: 35px;
+}
+
+tr:hover {
+    background-color: rgba(0,0,0,.1);
+}
+
+tr:first-child {
+    border: none;
+}
+
+th {
+    font-weight: bold;
+}
+
+th:first-child, td:first-child {
+    padding-left: 8px;
+}
+
+th:last-child, td:last-child {
+    padding-right: 8px;
+}
+
+th, td {
+    text-align: right;
+}
+
+th:first-child, td:first-child {
+    text-align: left;
+}
+
+.view {
+    color: #5dbcdc;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.view-container {
+    padding: 40px;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,.25);
+}
+
+h1 {
+    font: bolder 36px Segoe UI;
+}
+
+h6 {
+    font-weight: bolder;
+}
+
+.add-new-product {
+    right: 20px;
+    bottom: 20px;
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    font-size: 40px;
+    opacity: .4;
+    color: white;
+    background-color: #29ed25;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,.25);
+}
+
+.add-new-product:hover, .add-new-product:focus {
+    color: #29ed25;
+    background: #fff;
+}
+
+label {
+    margin-top: 25px;
+    font-weight: bolder;
+}
+
+.usermenu .delBtn {
+    background: #ea3a3a;
+}
+
+textarea {
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px 20px;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    line-height: normal;
+}
+
+button.close {
+    width: 0;
+    height: 0;
+    margin: 0;
+    margin-right: 27.5px;
+    padding: 0;
+    color: #000;
+}

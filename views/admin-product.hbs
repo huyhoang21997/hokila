@@ -1,0 +1,357 @@
+<link href="../stylesheets/admin-product.css" rel="stylesheet">
+
+<div class="wrapper">
+    <table>
+        <thead>
+            <tr style="background-color: rgba(0,0,0,.1);">
+                <th>Product Name</th>
+                <th style="width: 154px;">Product Id</th>
+                <th style="width: 105px;">Producer</th>
+                <th style="width: 126px;">Price</th>
+                <th style="width: 83px;">Count</th>
+                <th style="width: 138px;">Configuration</th>
+                <th style="width: 109px;">Describe</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{{items}}}
+        </tbody>
+    </table>
+</div>
+
+<button class="add-new-product" title="Add New Product" onclick="document.getElementById('id03').style.display='block'">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+</button>
+
+<div id="id01" class="modal">
+    <div class="modal-content animate">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </span>
+        </div>
+        <div class="view-container">
+            <h1>Describe <span style="color:#ea3a3a" id="describe-name"></span></h1>
+            <br>
+            <span id="describe-view"></span>
+        </div>
+    </div>
+</div>
+
+<div id="id02" class="modal">
+    <div class="modal-content animate">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </span>
+        </div>
+        <div class="view-container">
+            <h1>Configuration <span style="color:#ea3a3a" id="config-name"></span></h1>
+            <br>
+            <h6>Screen:</h6>
+            <span id="screen-view"></span>
+            <hr>
+            <h6>Camera:</h6>
+            <span id="camera-view"></span>
+            <hr>
+            <h6>Pin:</h6>
+            <span id="pin-view"></span>
+            <hr>
+            <h6>Ram:</h6>
+            <span id="ram-view"></span>
+            <hr>
+            <h6>CPU:</h6>
+            <span id="cpu-view"></span>
+            <hr>
+            <h6>OS:</h6>
+            <span id="os-view"></span>
+        </div>
+    </div>
+</div>
+
+<div class="usermenu">
+    <div id="id03" class="modal">
+        <form class="modal-content animate" method="post" action="/admin/">
+            <div class="imgcontainer">
+                <button type="reset" onclick="document.getElementById('id03').style.display='none'" class="close" title="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="view-container">
+                <h1 style="text-align:center">Add New Product</h1>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="product_name">Product Name:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="product_name" required>
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="product_id">Product Id:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="product_id" required>
+                        </div>                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="producer">Producer:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="producer" required>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="price">Price:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="price" required>
+                        </div>                      
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="count">Count:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="count" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="screen">Screen:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="screen" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="camera">Camera:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="camera" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="pin">Pin:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="pin" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="ram">Ram:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="ram" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="cpu">CPU:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="cpu" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="os">OS:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="os" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="describe">Describe:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            {{!-- <input type="text" name="describe" required> --}}
+                            <textarea rows="9" name="describe" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9 col-sm-9">
+                            <button type="submit">Add New Product</button>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <button class="cancelbtn" type="reset" onclick="document.getElementById('id03').style.display='none'">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="usermenu">
+    <div id="id04" class="modal">
+        <form class="modal-content animate" id="myForm" method="post">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
+            </div>
+            <div class="view-container">
+                <h1 style="text-align:center">Edit Or Delete Product</h1>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="product_name">Product Name:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="product_name" name="product_name" required>
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="product_id">Product Id:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="product_id" name="product_id" required readonly>
+                        </div>                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="producer">Producer:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="producer" name="producer" required>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="price">Price:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="price" name="price" required>
+                        </div>                      
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="count">Count:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="count" name="count" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="screen">Screen:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="screen" name="screen" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="camera">Camera:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="camera" name="camera" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="pin">Pin:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="pin" name="pin" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="ram">Ram:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="ram" name="ram" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="cpu">CPU:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="cpu" name="cpu" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="os">OS:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="os" name="os" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="describe">Describe:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            {{!-- <input type="text" id="describe" name="describe" required> --}}
+                            <textarea rows="9" id="describe" name="describe" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <button type="submit" onclick="document.getElementById('myForm').action = '/admin/edit'">Edit Product</button>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <button class="delBtn" onclick="document.getElementById('myForm').action = '/admin/delete'" type="submit">Delete Product</button>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <button class="cancelbtn" onclick="document.getElementById('id04').style.display='none'">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function viewDescribe(name, describe) {
+        document.getElementById('describe-view').innerHTML = describe;
+        document.getElementById('describe-name').innerHTML = name;
+        
+        document.getElementById('id01').style.display='block';
+    }
+
+    function viewConfiguration(name, screen, camera, pin, ram, cpu, os) {
+        document.getElementById('screen-view').innerHTML = screen;
+        document.getElementById('camera-view').innerHTML = camera;
+        document.getElementById('pin-view').innerHTML = pin;
+        document.getElementById('ram-view').innerHTML = ram;
+        document.getElementById('cpu-view').innerHTML = cpu;
+        document.getElementById('os-view').innerHTML = os;
+        document.getElementById('config-name').innerHTML = name;
+        
+        document.getElementById('id02').style.display='block';
+    }
+
+    function editOrDelete(name, id, producer, price, count, describe, scn, cam, pin, ram, cpu, os) {
+        document.getElementById("product_name").value = name;
+        document.getElementById('product_id').value = id;
+        document.getElementById('producer').value = producer;
+        document.getElementById('price').value = price;
+        document.getElementById('count').value = count;
+        document.getElementById('describe').value = describe;
+        document.getElementById('screen').value = scn;
+        document.getElementById('camera').value = cam;
+        document.getElementById('pin').value = pin;
+        document.getElementById('ram').value = ram;
+        document.getElementById('cpu').value = cpu;
+        document.getElementById('os').value = os;
+        document.getElementById('id04').style.display='block';
+    }
+</script>

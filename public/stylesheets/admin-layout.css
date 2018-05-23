@@ -1,0 +1,88 @@
+@import "reset.css";
+
+body {
+    background: #f4f6f9;
+}
+
+#sideMenu {
+    background: rgba(0,0,0,.75);
+    max-width: 280px;
+    width: 180px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+
+#sideMenu nav {
+    padding-top: 100px;
+}
+
+#sideMenu nav a {
+    display: block;
+    color: #eaedf3;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-weight: 300;
+    transition: all 0.3s ease-in-out;
+}
+
+#sideMenu nav a:hover {
+    background: #282639;
+    padding: 15px 30px 15px 20px;
+    border-right: 5px solid #209e91;
+    color: #209e91;
+    box-shadow: 2px 0 3px rgba(0,0,0,.5);
+    font-weight: bold;
+}
+
+#sideMenu nav a:hover .fa {
+    color: #209e91;
+}
+
+#sideMenu .fa {
+    color: #eaedf3;
+    font-size: 1.4rem;
+    margin-right: 0.8rem;
+    display: inline-block;
+    width: 30px;
+    position: relative;
+    top: 2px;
+}
+
+.active {
+    background: #209e91;
+    padding: 15px 30px 15px 20px;
+}
+
+header {
+    background-color: #1C2B36;
+    position: fixed;
+    z-index: 904;
+    box-shadow: 2px 0 3px rgba(0,0,0,.5);
+    height: 66px;
+    width: 100%;
+}
+
+.user-area {
+    position: absolute;
+    right: 66px;
+    top: 0;
+    height: 66px;
+    line-height: 66px;
+    color: #fff;
+    font-weight: 300;
+}
+
+.user-area a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.content-area {
+    margin-left: 220px;
+    padding-top: 106px;
+}
+
+.heading {
+    margin-bottom: 40px;
+}

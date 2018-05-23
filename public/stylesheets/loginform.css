@@ -6,6 +6,8 @@
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    border-radius: 10px;
+    outline: none;
 }
 
 /* Set a style for all buttons */
@@ -17,6 +19,8 @@
     border: none;
     cursor: pointer;
     width: 100%;
+    border-radius: 10px;
+    outline: none;
 }
 
 .usermenu button:hover {
@@ -25,9 +29,7 @@
 
 /* Extra styles for the cancel button */
 .usermenu .cancelbtn {
-    width: auto;
-    padding: 10px 18px;
-    background-color: #f44336;
+    background-color: #f99135;
 }
 
 .container {

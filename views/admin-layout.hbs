@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="../stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="../stylesheets/loginform.css" rel="stylesheet">
+    <link href="../stylesheets/admin-layout.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <section id="sideMenu">
+        <nav>
+            <a href="/home">
+                <i class="fa fa-home" aria-hidden="true"></i>
+                Home
+            </a>
+            <a href="/profile">
+                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                Profile
+            </a>
+            <a href="/manage-accounts">
+                <i class="fa fa-users" aria-hidden="true"></i>
+                Account
+            </a>
+            <a href="/manage-producers">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+                Producer
+            </a>
+            <a href="/manage-products">
+                <i class="fa fa-laptop" aria-hidden="true"></i>
+                Product
+            </a>
+            <a href="/manage-orders">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                Order
+            </a>
+            <a href="/statistic">
+                <i class="fa fa-line-chart" aria-hidden="true"></i>
+                Statistic
+            </a>
+        </nav>
+    </section>
+
+    <header>
+        <div class="user-area">
+            <span>Kiet</span>
+            <span>&nbsp;|&nbsp;</span>
+            <a href="#" class="log-out">Log out</a>      
+        </div>
+    </header>
+
+    <section class="content-area">
+        <div class="heading">
+            <h1>{{title}}</h1>
+        </div>
+
+        {{{body}}}
+    </section>
+</body>
+</html>
