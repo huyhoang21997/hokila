@@ -68,7 +68,7 @@ h6 {
     font-weight: bolder;
 }
 
-.add-new-product {
+.add {
     right: 20px;
     bottom: 20px;
     position: fixed;
@@ -85,7 +85,7 @@ h6 {
     box-shadow: 0 5px 5px 0 rgba(0,0,0,.25);
 }
 
-.add-new-product:hover, .add-new-product:focus {
+.add:hover, .add:focus {
     color: #29ed25;
     background: #fff;
 }

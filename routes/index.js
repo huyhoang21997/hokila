@@ -4,6 +4,7 @@ const router = express.Router();
 const getHTMLProduct = require('../views/views').getHTMLProduct;
 const getHTMLRowTable = require('../views/views').getHTMLRowTable;
 const getTypeMenu = require('../views/views').getTypeMenu;
+const getAccountHTMLRowTable = require('../views/views').getAccountHTMLRowTable;
 // bussiness
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -15,6 +16,7 @@ router.use(passport.session());
 // connection and models
 const db = require('../models/connection');
 const productSchema = require('../models/product');
+const accountSchema = require('../models/account');
 productSchema.find({}).exec(function(err, productsList) {
   if (!err) {
     console.log('Da tao xong server');
@@ -22,11 +24,10 @@ productSchema.find({}).exec(function(err, productsList) {
     router.get('/', function(req, res) {
       var href = '', state = '', action = '';
       if (req.isAuthenticated()) {
-        res.render('admin-product', {
+        res.render('admin-home', {
           layout: 'admin-layout',
-          title: "Manage Products",
+          title: "Home",
           name: req.user.username,
-          items: getHTMLRowTable(productsList)
         });
       }
       else {
@@ -40,6 +41,106 @@ productSchema.find({}).exec(function(err, productsList) {
         });
       }
     });
+    router.get('/manage-products', function(req, res) {
+      var href = '', state = '', action = '';
+      if (req.isAuthenticated()) {
+        res.render('admin-product', {
+          layout: 'admin-layout',
+          title: "Manage Products",
+          name: req.user.username,
+          items: getHTMLRowTable(productsList)
+        });
+      }
+      else {
+        res.render(err);
+      }
+    });
+
+    accountSchema.find({}).exec(function(err, accountsList) {
+      if (!err) {
+        router.get('/manage-accounts', function(req, res) {
+          var href = '', state = '', action = '';
+          if (req.isAuthenticated()) {
+            res.render('admin-account', {
+              layout: 'admin-layout',
+              title: "Manage Accounts",
+              name: req.user.username,
+              items: getAccountHTMLRowTable(accountsList)
+            });
+          }
+          else {
+            res.render(err);
+          }
+        });
+        router.post('/add-account', function(req, res) {
+          if(req.isAuthenticated()) {
+            var account = {
+              username: req.body.username,
+              password: req.body.password,
+              role: req.body.role
+            };
+            var new_account = new accountSchema(account);
+            new_account.save(function(err) {
+              if (err) {
+                console.log(err);
+              }
+              else {
+                accountsList.push(account);
+              }
+            });
+            res.redirect('/');
+          }
+        });
+        router.post('/edit-account', function(req, res) {
+          if(req.isAuthenticated()) {
+            var account = {
+              username: req.body.username,
+              password: req.body.password,
+              role: req.body.role,
+            };
+            accountSchema.updateOne(
+              {username: req.body.username},
+              {
+                $set: {
+                  password: req.body.password,
+                  role: req.body.role
+                }
+              }, function(err) {
+              if (err) {
+                console.log(err);
+              }
+              else {
+                for (var i = 0; i < accountsList.length; i++) {
+                  if (accountsList[i].username === req.body.username) {
+                    accountsList[i] = account;
+                    break;
+                  }
+                }          
+              }}
+            );
+            res.redirect('/');
+          }
+        });
+        router.post('/delete-account', function(req, res) {
+          if(req.isAuthenticated()) {
+            accountSchema.deleteOne({username: req.body.username}, function(err) {
+              if (err) {
+                console.log(err);
+              }
+              else {
+                for (var i = 0; i < accountsList.length; i++) {
+                  if (accountsList[i].username === req.body.username) {
+                    accountSchema.splice(i, 1);
+                    break;
+                  }
+                }
+              }
+            });
+            res.redirect('/');
+          }
+        });
+      }});
+    
     router.post('/add', function(req, res) {
       if(req.isAuthenticated()) {
         var product = {

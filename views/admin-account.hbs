@@ -1,0 +1,119 @@
+<div class="wrapper">
+    <table>
+        <thead>
+            <tr style="background-color: rgba(0,0,0,.1);">
+                <th style="width:316px">Username</th>
+                <th style="width:316px">Password</th>
+                <th style="width:316px">Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{{items}}}
+        </tbody>
+    </table>
+</div>
+
+<button class="add" title="Add New Account" onclick="document.getElementById('id05').style.display='block'">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+</button>
+
+<div class="usermenu">
+    <div id="id05" class="modal">
+        <form class="modal-content animate" method="post" action="/add-account">
+            <div class="imgcontainer">
+                <button type="reset" onclick="document.getElementById('id05').style.display='none'" class="close" title="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="view-container">
+                <h1 style="text-align:center">Add New Account</h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="username">Username:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="username" required>
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="password">Password:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="password" required>
+                        </div>                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="role">Role:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="role" required>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9 col-sm-9">
+                            <button type="submit">Add New Account</button>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <button class="cancelbtn" type="reset" onclick="document.getElementById('id05').style.display='none'">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="usermenu">
+    <div id="id06" class="modal">
+        <form class="modal-content animate" id="myForm" method="post">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('id06').style.display='none'" class="close" title="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
+            </div>
+            <div class="view-container">
+                <h1 style="text-align:center">Edit Or Delete Account</h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="username">Username:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="username" name="username" required readonly>
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="password">Password:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="password" name="password" required>
+                        </div>                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="role">Role:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="role" name="role" required>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <button type="submit" onclick="document.getElementById('myForm').action = '/edit-account'">Edit Account</button>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <button class="delBtn" onclick="document.getElementById('myForm').action = '/delete-account'" type="submit">Delete Account</button>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <button class="cancelbtn" onclick="document.getElementById('id06').style.display='none'">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

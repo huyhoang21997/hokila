@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin-Page</title>
+    <title>{{title}}</title>
     <link href="../stylesheets/bootstrap.css" rel="stylesheet">
     <link href="../stylesheets/loginform.css" rel="stylesheet">
     <link href="../stylesheets/admin-layout.css" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body>
     <section id="sideMenu">
         <nav>
-            <a href="/home">
+            <a href="/">
                 <i class="fa fa-home" aria-hidden="true"></i>
                 Home
             </a>
@@ -88,6 +88,13 @@
             document.getElementById('cpu').value = cpu;
             document.getElementById('os').value = os;
             document.getElementById('id04').style.display='block';
+        }
+
+        function editOrDeleteAccount(username, password, role) {
+            document.getElementById("username").value = username;
+            document.getElementById('password').value = password;
+            document.getElementById('role').value = role;
+            document.getElementById('id06').style.display='block';
         }
     </script>
 </body>
