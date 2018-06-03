@@ -340,6 +340,33 @@ productSchema.find({}).exec(function(err, productsList) {
         smartphone_menu: getTypeMenu(productsList)
       });
     });
+
+    router.post('/comment/:id', function(req, res) {
+      var href = '', state = '', action = '';
+      if (req.isAuthenticated()) {
+        href = '/logout';
+        state = req.user.username + ' - Log out';
+      }
+      else {
+        href = '#';
+        state = 'Log in';
+        action = "document.getElementById('id01').style.display='block'";
+      }
+
+      var comment = {
+        "content": req.body.content,
+        "date": req.body.date
+      }
+      productSchema.updateOne({productId: req.params.id}, {
+        $push: {comment: comment}}, function (error, success) {
+          if (error) {
+              console.log(error);
+          } else {
+              console.log(success);
+          }
+      });
+      res.send("success");
+    });
   }
 });
 module.exports = router;

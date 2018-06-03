@@ -1,5 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
+var commentSchema = new Schema({
+    content: {type: String, required: true},
+    date: {type: Date, default: Date.now, required: true}
+});
+
 var productSchema = new Schema({
     productId: {type: String, required: true, unique: true},
     productName: {type: String, required: true},
@@ -15,7 +21,8 @@ var productSchema = new Schema({
         ram: {type: String, required: true},
         cpu: {type: String, required: true},
         os: {type: String, required: true}
-    }
+    },
+    comment: {type: [commentSchema]}
 });
 // productSchema.virtual('imageFile').get(function() {
 //     return this.productId + '_1.jpg';
