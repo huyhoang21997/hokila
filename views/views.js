@@ -154,7 +154,26 @@ function getTypeMenu(productsList) {
   }
   return new DOMParser().parseFromString(html_object);
 }
+
+function getCommentList(productsList, productId) {
+  var html_object = '';
+  for (let i = 0; i < productsList.length; i++) {
+    if (productsList[i].productId === productId) {
+      for (let j = productsList[i].comment.length - 1; j >= 0; j--) {
+        html_object += '\
+          <p>' + productsList[i].comment[j].date + '</p>\
+          <p>' + productsList[i].comment[j].content + '</p>\
+          <hr>\
+      ';
+      }
+      break;
+    }
+  }
+  return new DOMParser().parseFromString(html_object);
+}
+
 module.exports.getHTMLProduct = getHTMLProduct;
 module.exports.getHTMLRowTable = getHTMLRowTable;
 module.exports.getTypeMenu = getTypeMenu;
 module.exports.getAccountHTMLRowTable = getAccountHTMLRowTable;
+module.exports.getCommentList = getCommentList;

@@ -5,6 +5,7 @@ const getHTMLProduct = require('../views/views').getHTMLProduct;
 const getHTMLRowTable = require('../views/views').getHTMLRowTable;
 const getTypeMenu = require('../views/views').getTypeMenu;
 const getAccountHTMLRowTable = require('../views/views').getAccountHTMLRowTable;
+const getCommentList = require('../views/views').getCommentList;
 // bussiness
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -291,6 +292,7 @@ productSchema.find({}).exec(function(err, productsList) {
           main_ram: product.configuration.ram,
           main_cpu: product.configuration.cpu,
           main_os: product.configuration.os,
+          comment_list: getCommentList(productsList, product.productId),
           items: getHTMLProduct(productsList, product, null, null, '../images/'),
           smartphone_menu: getTypeMenu(productsList)
         });
@@ -360,9 +362,9 @@ productSchema.find({}).exec(function(err, productsList) {
       productSchema.updateOne({productId: req.params.id}, {
         $push: {comment: comment}}, function (error, success) {
           if (error) {
-              console.log(error);
+            console.log(error);
           } else {
-              console.log(success);
+            console.log(success);
           }
       });
       res.send("success");

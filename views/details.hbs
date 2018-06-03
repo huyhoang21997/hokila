@@ -102,6 +102,7 @@
                   <div class="clearfix"></div>
                 </div>
 
+                {{!-- COMMENT TEXTFIELD --}}
                 <div class="well">
                   <h4>Write your comment ...<span class="glyphicon glyphicon-pencil"></span></h4>
                   <form method="post">
@@ -110,6 +111,11 @@
                     </div>
                     <button type="submit" class="btn btn-primary" id="cmt-sm">Send</button>
                   </form>
+                </div>
+
+                {{!-- COMMENT LIST --}}
+                <div class="cmt-list">
+                  {{{comment_list}}}
                 </div>
               </div>
               <div id="productsDetails" class="hot-products">
