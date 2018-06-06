@@ -161,8 +161,13 @@ function getCommentList(productsList, productId) {
     if (productsList[i].productId === productId) {
       for (let j = productsList[i].comment.length - 1; j >= 0; j--) {
         html_object += '\
-          <p>' + productsList[i].comment[j].date + '</p>\
-          <p>' + productsList[i].comment[j].content + '</p>\
+          <p style="font-size: 15px; font-weight: bold;">' + productsList[i].comment[j].username + '</p>\
+          <p style="font-size: 13px; color: #9b9b9b;">' + productsList[i].comment[j].date.getDate() 
+          + '/' + productsList[i].comment[j].date.getMonth() 
+          + '/' + productsList[i].comment[j].date.getFullYear() 
+          + ' ' + productsList[i].comment[j].date.getHours() 
+          + ':' + productsList[i].comment[j].date.getMinutes() + '</p>\
+          <p style="font-size: 14px">' + productsList[i].comment[j].content + '</p>\
           <hr>\
       ';
       }

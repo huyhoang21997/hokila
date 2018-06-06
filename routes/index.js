@@ -23,13 +23,26 @@ productSchema.find({}).exec(function(err, productsList) {
     console.log('Da tao xong server');
     // controller
     router.get('/', function(req, res) {
-      var href = '', state = '', action = '';
+      var name = '', href = '', state = '', action = '';
       if (req.isAuthenticated()) {
-        res.render('admin-home', {
-          layout: 'admin-layout',
-          title: "Home",
-          name: req.user.username,
-        });
+        if (req.user.role !== 'Khachhang') {
+          res.render('admin-home', {
+            layout: 'admin-layout',
+            title: "Home",
+            name: req.user.username,
+          });
+        }
+        else {
+          res.render('index', {title: 'All Products', 
+            name: req.user.username,
+            href: '/logout',
+            action: action,
+            state: ' - Log out',
+            producer: 'All',
+            items: getHTMLProduct(productsList, null, null, null, '../images/'),
+            smartphone_menu: getTypeMenu(productsList)
+          });
+        }
       }
       else {
         res.render('index', {title: 'All Products', 
@@ -250,10 +263,11 @@ productSchema.find({}).exec(function(err, productsList) {
       res.redirect('/');
     });
     router.get('/details/:productId', function(req, res) {
-      var href = '', state = '', action = '';
+      var name = '', href = '', state = '', action = '';
       if (req.isAuthenticated()) {
+        name = req.user.username;
         href = '/logout';
-        state = req.user.username + ' - Log out';
+        state = ' - Log out';
       }
       else {
         href = '#';
@@ -278,6 +292,7 @@ productSchema.find({}).exec(function(err, productsList) {
     
         res.render('details', {
           title: product.productName,
+          name: name,
           href: href,
           action: action,
           state: state,
@@ -302,10 +317,11 @@ productSchema.find({}).exec(function(err, productsList) {
       }
     });
     router.get('/smartphone/:producer', function(req, res) {
-      var href = '', state = '', action = '';
+      var name = '', href = '', state = '', action = '';
       if (req.isAuthenticated()) {
+        name = req.user.username;
         href = '/logout';
-        state = req.user.username + ' - Log out';
+        state = ' - Log out';
       }
       else {
         href = '#';
@@ -313,7 +329,8 @@ productSchema.find({}).exec(function(err, productsList) {
         action = "document.getElementById('id01').style.display='block'";
       }
     
-      res.render('index', {title: req.params.producer + ' Products', 
+      res.render('index', {title: req.params.producer + ' Products',
+        name: name,
         href: href,
         action: action,
         state: state,
@@ -323,16 +340,18 @@ productSchema.find({}).exec(function(err, productsList) {
       });
     });
     router.get('/search', function(req, res) {
-      var href = '', state = '', action = '';
+      var name = '', href = '', state = '', action = '';
       if (req.isAuthenticated()) {
+        name = req.user.username;
         href = '/logout';
-        state = req.user.username + ' - Log out';
+        state = ' - Log out';
       }
       else {
         href = '#';
         state = 'Log in';
         action = "document.getElementById('id01').style.display='block'";
       }
+
       res.render('index', {title: req.query.name.toLowerCase() + ' Products', 
         href: href,
         action: action,
@@ -344,10 +363,11 @@ productSchema.find({}).exec(function(err, productsList) {
     });
 
     router.post('/comment/:id', function(req, res) {
-      var href = '', state = '', action = '';
+      var name = '', href = '', state = '', action = '';
       if (req.isAuthenticated()) {
+        name = req.user.username;
         href = '/logout';
-        state = req.user.username + ' - Log out';
+        state = ' - Log out';
       }
       else {
         href = '#';
@@ -356,6 +376,7 @@ productSchema.find({}).exec(function(err, productsList) {
       }
 
       var comment = {
+        "username": req.body.username,
         "content": req.body.content,
         "date": req.body.date
       }

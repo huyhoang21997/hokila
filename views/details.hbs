@@ -104,10 +104,11 @@
 
                 {{!-- COMMENT TEXTFIELD --}}
                 <div class="well">
-                  <h4>Write your comment ...<span class="glyphicon glyphicon-pencil"></span></h4>
+                  <h5 style="font-weight:400">Write your comment ...<span class="glyphicon glyphicon-pencil"></span></h5>
                   <form method="post">
                     <div class="form-group">
-                      <textarea class="form-control" rows="3" id="cmt-txt"></textarea>
+                      <textarea class="form-control" rows="3" id="cmt-txt" required></textarea>
+                      <input style="margin-top: 19px; width: 50%; border-radius: 4px;" type="text" placeholder="Input name" id="cmt-name" required>
                     </div>
                     <button type="submit" class="btn btn-primary" id="cmt-sm">Send</button>
                   </form>
