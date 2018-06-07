@@ -2,6 +2,11 @@ jQuery(document).ready(function($) {
     // hide textfield for inputing username
     $("#cmt-name").hide();
 
+    let pathname = window.location.pathname;
+    let sep = pathname.lastIndexOf('/');
+    // get product id
+    let id = pathname.slice(sep + 1, pathname.length + 1);
+
     $("#cmt-sm").on('click', function(event) {
         event.preventDefault();
 
@@ -28,10 +33,6 @@ jQuery(document).ready(function($) {
         }
 
         let date = new Date();
-        let pathname = window.location.pathname;
-        let sep = pathname.lastIndexOf('/');
-        // get product id
-        let id = pathname.slice(sep + 1, pathname.length + 1);
         var formData = {      
             'username': username,     
             'content': content,
@@ -56,6 +57,22 @@ jQuery(document).ready(function($) {
             $("#cmt-name").val('');
             $("#cmt-name").hide();
 
+            console.log('done');
+        })
+        .fail(function(data) {
+            console.log('fail');
+        });
+    });
+
+    $(".page-link").on('click', function(event) {
+        let page_num = $(this).text();
+        $.ajax({
+            type: 'get',
+            url: '/comment/' + id + '/' + page_num,
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $(".cmt-list").html(data);
             console.log('done');
         })
         .fail(function(data) {

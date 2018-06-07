@@ -6,6 +6,8 @@ const getHTMLRowTable = require('../views/views').getHTMLRowTable;
 const getTypeMenu = require('../views/views').getTypeMenu;
 const getAccountHTMLRowTable = require('../views/views').getAccountHTMLRowTable;
 const getCommentList = require('../views/views').getCommentList;
+const getCommentListStr = require('../views/views').getCommentListStr;
+const getPageItems = require('../views/views').getPageItems;
 // bussiness
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -289,7 +291,7 @@ productSchema.find({}).exec(function(err, productsList) {
             other = 'Limited';
           }
         }
-    
+        
         res.render('details', {
           title: product.productName,
           name: name,
@@ -307,7 +309,8 @@ productSchema.find({}).exec(function(err, productsList) {
           main_ram: product.configuration.ram,
           main_cpu: product.configuration.cpu,
           main_os: product.configuration.os,
-          comment_list: getCommentList(productsList, product.productId),
+          comment_list: getCommentList(productsList, product.productId, 1),
+          page_list: getPageItems(productsList, product.productId),
           items: getHTMLProduct(productsList, product, null, null, '../images/'),
           smartphone_menu: getTypeMenu(productsList)
         });
@@ -363,18 +366,6 @@ productSchema.find({}).exec(function(err, productsList) {
     });
 
     router.post('/comment/:id', function(req, res) {
-      var name = '', href = '', state = '', action = '';
-      if (req.isAuthenticated()) {
-        name = req.user.username;
-        href = '/logout';
-        state = ' - Log out';
-      }
-      else {
-        href = '#';
-        state = 'Log in';
-        action = "document.getElementById('id01').style.display='block'";
-      }
-
       var comment = {
         "username": req.body.username,
         "content": req.body.content,
@@ -389,6 +380,10 @@ productSchema.find({}).exec(function(err, productsList) {
           }
       });
       res.send("success");
+    });
+
+    router.get('/comment/:id/:num', function(req, res) {
+      res.send(getCommentListStr(productsList, req.params.id, req.params.num));
     });
   }
 });

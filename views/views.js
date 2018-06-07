@@ -155,11 +155,18 @@ function getTypeMenu(productsList) {
   return new DOMParser().parseFromString(html_object);
 }
 
-function getCommentList(productsList, productId) {
+function getCommentListStr(productsList, productId, num) {
   var html_object = '';
   for (let i = 0; i < productsList.length; i++) {
     if (productsList[i].productId === productId) {
-      for (let j = productsList[i].comment.length - 1; j >= 0; j--) {
+      let startIndex = (num - 1) * 5;
+      let startPos = productsList[i].comment.length - 1 - startIndex;
+      let endPos = startPos - 5;
+      if (endPos < 0) {
+        endPos = -1;
+      }   
+
+      for (let j = startPos; j > endPos; j--) {
         html_object += '\
           <p style="font-size: 15px; font-weight: bold;">' + productsList[i].comment[j].username + '</p>\
           <p style="font-size: 13px; color: #9b9b9b;">' + productsList[i].comment[j].date.getDate() 
@@ -169,16 +176,47 @@ function getCommentList(productsList, productId) {
           + ':' + productsList[i].comment[j].date.getMinutes() + '</p>\
           <p style="font-size: 14px">' + productsList[i].comment[j].content + '</p>\
           <hr>\
-      ';
+        ';
       }
+
       break;
     }
   }
+
+  return html_object;
+}
+
+function getPageItems(productsList, productId) {
+  var html_object = '';
+  var count = 0;
+  for (var i = 0; i < productsList.length; i++) {
+    if (productsList[i].productId === productId) {
+      count = Math.ceil(productsList[i].comment.length / 5);
+      break;
+    }
+  }
+
+  if (count > 1) {
+    var j = 1;
+    while (j <= count) {
+      html_object += '\
+        <li class="page-item"><a class="page-link">' + j + '</a></li>\
+      ';
+      j++;
+    }
+  }
+
   return new DOMParser().parseFromString(html_object);
+}
+
+function getCommentList(productsList, productId, num) {
+  return new DOMParser().parseFromString(getCommentListStr(productsList, productId, num));
 }
 
 module.exports.getHTMLProduct = getHTMLProduct;
 module.exports.getHTMLRowTable = getHTMLRowTable;
 module.exports.getTypeMenu = getTypeMenu;
 module.exports.getAccountHTMLRowTable = getAccountHTMLRowTable;
+module.exports.getCommentListStr = getCommentListStr;
 module.exports.getCommentList = getCommentList;
+module.exports.getPageItems = getPageItems;
