@@ -17,6 +17,7 @@
     <link href="../stylesheets/table.css" rel="stylesheet">
   </head>
   <body>
+    
     <div class="header">
         <div class="container">
           <div class="row">
@@ -69,6 +70,20 @@
                       <input class="search-input" placeholder="Enter your search term..." type="text" value="" name="name">
                     </form>
                   </li>
+
+                  <li class="option-cart">
+                    <a href="/shopping-cart" class="cart-icon">
+                      <span style="color:red; font-weight:900" class="cart_no">{{qty}}</span>
+                    </a>
+                    
+                    <ul class="option-cart-item">
+                      {{{content_cart_icon}}}
+                      <li>
+                        <span class="total"><strong>{{total}}</strong></span>
+                        <button class="checkout">Checkout</button>
+                      </li>
+                    </ul>
+                  </li>
                 </ul>
                 <div class="navbar-header">
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -93,7 +108,7 @@
                     <li><a href="../../">laptop</a></li>
                     <li><a href="../../">headphone</a></li>
                     <li><a href="../../">battery</a></li>
-                    <li><a href="../../">other</a></li>
+                    {{!-- <li><a href="../../">other</a></li> --}}
                   </ul>
                 </div>
               </div>
@@ -110,6 +125,7 @@
         -->
       </div>
     {{{body}}}
+    
     <script type="text/javascript" src="../javascripts/jquery-1.10.2.min.js"></script>
 	  <script type="text/javascript" src="../javascripts/jquery.easing.1.3.js"></script>
 	  <script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>

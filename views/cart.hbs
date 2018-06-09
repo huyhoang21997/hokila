@@ -1,0 +1,67 @@
+<style>
+    .qty {
+        display: flex;
+        justify-content: center;
+    }
+
+    .qty-minus, .qty-plus {
+        float: left;
+        cursor: pointer;
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        text-align: center;
+        color: #828282;
+        font-size: 22px;
+        background-color: #f8f8f8;
+        border: solid 1px #dfdfdf;
+    }
+
+    .qty-num {
+        float: left;
+        width: 40px;
+        height: 28px;
+        text-align: center;
+        font-size: 13px;
+        color: #555;
+        border: solid 1px #e0e0e0;
+        border-left: none;
+        border-right: none;
+    }
+
+    #total-money {
+        border: 1px solid #e1e1e1;
+        position: relative;
+        border-radius: 10px;
+        padding: 15px;
+    }
+</style>
+
+<div class="container_fullwidth">
+    <div class="container shopping-cart">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="title">Your Shopping Cart</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <table class="shop-table">
+                    <tbody id="content-cart">
+                        {{{content_cart}}}                        
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-3">
+                <div id="total-money">
+                    <strong style="font-weight:900; font-size:16px">Total</strong>
+                    <p style="font-size:18px; font-weight:900; margin-top:15px" class="light-red">{{total}}</p>
+                </div>
+                <div class="usermenu" style="width:100%">
+                    <button id="checkout" type="submit">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

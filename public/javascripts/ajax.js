@@ -79,4 +79,50 @@ jQuery(document).ready(function($) {
             console.log('fail');
         });
     });
+
+    $("#add-to-cart").on('click', function(event) {
+        var qty = $(".cart_no").text();
+        if (qty === "") {
+            qty = "0";
+        }
+        qty = parseInt(qty);
+        qty++;
+
+        let product_price = $(".new_price").text()
+        let total_price = $(".total").text();
+        let new_price = parseInt(convertLocaleString(total_price)) + parseInt(convertLocaleString(product_price));
+
+        $.ajax({
+            type: 'post',
+            url: '/shopping-cart/' + id,
+            dataType: 'html',
+            data: {
+                'qty': qty,
+                'total': new_price.toLocaleString('vi') + '₫'
+            }
+        })
+        .done(function(data) {
+            $(".cart_no").text(qty);
+            $(".option-cart-item").prepend(data);
+            $(".total strong").text(new_price.toLocaleString('vi') + '₫');
+            console.log('done');
+        })
+        .fail(function(data) {
+            console.log('fail');
+        });
+    });
 });
+
+// convert from price (locale string) to price (int)
+function convertLocaleString(price) {
+    let res = '';
+    for (let i = 0; i < price.length; i++) {
+        if (price[i] >= "0" && price[i] <= "9") {
+            res += price[i];
+        }
+    }
+    if (res === '') {
+        res = "0";
+    }
+    return res;
+}
