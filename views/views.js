@@ -213,68 +213,20 @@ function getCommentList(productsList, productId, num) {
   return new DOMParser().parseFromString(getCommentListStr(productsList, productId, num));
 }
 
-function getShoppingCart(productsList, productId) {
-  var html_object = '';
+function getCartProduct(productsList, productId) {
+  var result;
   for (var i = 0; i < productsList.length; i++) {
     if (productsList[i].productId === productId) {
-      html_object = '<tr>\
-        <td>\
-          <img src="../images/' + productId + '_1.jpg" alt="">\
-        </td>\
-        <td>\
-          <div class="shop-details">\
-            <div class="productname">' + productsList[i].productName + '</div>\
-          </div>\
-        </td>\
-        <td>\
-          <h5>' + productsList[i].unitPrice.toLocaleString('vi') + '₫</h5>\
-        </td>\
-        <td>\
-          <div class="qty">\
-            <span class="qty-minus">-</span>\
-            <input class="qty-num" type="text" readonly value="1">\
-            <span class="qty-plus">+</span>\
-          </div>\
-        </td>\
-        <td>\
-          <img src="../images/remove.png" alt="">\
-        </td>\
-      </tr>';
+      result = {
+        "id": productsList[i].productId,
+        "name": productsList[i].productName,
+        "price": productsList[i].unitPrice,
+        "qty": 1
+      };
     }
   }
 
-  return html_object;
-}
-
-function getShoppingCartIcon(productsList, productId) {
-  var html_object = '';
-  for (var i = 0; i < productsList.length; i++) {
-    if (productsList[i].productId === productId) {
-      html_object = '<li>\
-      <div class="cart-item">\
-        <div class="image">\
-          <img src="../images/' + productId + '_1.jpg" alt="">\
-        </div>\
-        <div class="item-description">\
-          <p class="name">' + productsList[i].productName + '</p>\
-          <p>\
-            <span class="light-red price">' + productsList[i].unitPrice.toLocaleString('vi') + '₫</span>\
-            <br>\
-            Quantity:<span class="light-red">01</span>\
-          </p>\
-        </div>\
-        <div class="right">\
-          <a href="#" class="remove">\
-            <img src="../images/remove.png" alt="remove">\
-          </a>\
-        </div>\
-      </div>\
-    </li>\
-    ';
-    }
-  }
-
-  return html_object;
+  return result;
 }
 
 module.exports.getHTMLProduct = getHTMLProduct;
@@ -284,5 +236,6 @@ module.exports.getAccountHTMLRowTable = getAccountHTMLRowTable;
 module.exports.getCommentListStr = getCommentListStr;
 module.exports.getCommentList = getCommentList;
 module.exports.getPageItems = getPageItems;
-module.exports.getShoppingCart = getShoppingCart;
-module.exports.getShoppingCartIcon = getShoppingCartIcon;
+// module.exports.getShoppingCart = getShoppingCart;
+// module.exports.getHeaderShoppingCart = getHeaderShoppingCart;
+module.exports.getCartProduct = getCartProduct;

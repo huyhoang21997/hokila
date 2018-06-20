@@ -8,8 +8,7 @@ const getAccountHTMLRowTable = require('../views/views').getAccountHTMLRowTable;
 const getCommentList = require('../views/views').getCommentList;
 const getCommentListStr = require('../views/views').getCommentListStr;
 const getPageItems = require('../views/views').getPageItems;
-const getShoppingCart = require('../views/views').getShoppingCart;
-const getShoppingCartIcon = require('../views/views').getShoppingCartIcon;
+const getCartProduct = require('../views/views').getCartProduct;
 // bussiness
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -434,12 +433,7 @@ productSchema.find({}).exec(function(err, productsList) {
     });
 
     router.post('/shopping-cart/:id', function(req, res) {
-      qty = req.body.qty;
-      total = req.body.total;
-      content_cart += getShoppingCart(productsList, req.params.id);
-      let temp = getShoppingCartIcon(productsList, req.params.id);
-      content_cart_icon += temp;
-      res.send(temp);
+      res.send(getCartProduct(productsList, req.params.id));
     });
   }
 });
