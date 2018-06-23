@@ -65,6 +65,8 @@ jQuery(document).ready(function($) {
     });
 
     $(".page-link").on('click', function(event) {
+        event.preventDefault();
+
         let page_num = $(this).text();
         $.ajax({
             type: 'get',

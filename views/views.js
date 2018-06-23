@@ -229,6 +229,54 @@ function getCartProduct(productsList, productId) {
   return result;
 }
 
+function getCartProductHTML(id, name, price, qty) {
+  var html_object = '';
+  
+      html_object = '<tr>\
+        <td>\
+          <img src="../images/' + id + '_1.jpg" alt="">\
+        </td>\
+        <td>\
+          <div class="shop-details">\
+            <div class="productname">' + name + '</div>\
+          </div>\
+        </td>\
+        <td>\
+          <h5>' + price.toLocaleString('vi') + '₫</h5>\
+        </td>\
+        <td>\
+          <div class="qty">\
+            <span class="qty-minus">-</span>\
+            <input class="qty-num" type="text" readonly value="' + qty + '">\
+            <span class="qty-plus">+</span>\
+          </div>\
+        </td>\
+        <td>\
+          <img id="remove-cart-product" src="../images/remove.png" alt="">\
+        </td>\
+      </tr>';
+
+  return html_object;
+}
+
+function getCartProductListHTML(cartProductList) {
+  let cart_product_list = JSON.parse(cartProductList);
+  var html_object = '';
+  var total_money = 0;
+  for (var i = 0; i < cart_product_list.length; i++) {
+    let cart_product = JSON.parse(cart_product_list[i]);
+    total_money += cart_product.price * cart_product.qty;
+    html_object += getCartProductHTML(cart_product.id, cart_product.name, cart_product.price, cart_product.qty);
+  }
+
+  let result = {
+    'html_object': html_object,
+    'total_money': total_money
+  };
+
+  return result;
+}
+
 module.exports.getHTMLProduct = getHTMLProduct;
 module.exports.getHTMLRowTable = getHTMLRowTable;
 module.exports.getTypeMenu = getTypeMenu;
@@ -236,6 +284,5 @@ module.exports.getAccountHTMLRowTable = getAccountHTMLRowTable;
 module.exports.getCommentListStr = getCommentListStr;
 module.exports.getCommentList = getCommentList;
 module.exports.getPageItems = getPageItems;
-// module.exports.getShoppingCart = getShoppingCart;
-// module.exports.getHeaderShoppingCart = getHeaderShoppingCart;
 module.exports.getCartProduct = getCartProduct;
+module.exports.getCartProductListHTML = getCartProductListHTML;

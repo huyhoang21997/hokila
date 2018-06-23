@@ -9,6 +9,7 @@ const getCommentList = require('../views/views').getCommentList;
 const getCommentListStr = require('../views/views').getCommentListStr;
 const getPageItems = require('../views/views').getPageItems;
 const getCartProduct = require('../views/views').getCartProduct;
+const getCartProductListHTML = require('../views/views').getCartProductListHTML;
 // bussiness
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -24,9 +25,6 @@ const accountSchema = require('../models/account');
 productSchema.find({}).exec(function(err, productsList) {
   if (!err) {
     console.log('Da tao xong server');
-    var content_cart_icon = '';
-    var qty = '';
-    var total = '';
     // controller
     router.get('/', function(req, res) {
       var name = '', href = '', state = '', action = '';
@@ -46,9 +44,6 @@ productSchema.find({}).exec(function(err, productsList) {
             state: ' - Log out',
             producer: 'All',
             items: getHTMLProduct(productsList, null, null, null, '../images/'),
-            content_cart_icon: content_cart_icon,
-            qty: qty,
-            total: total,
             smartphone_menu: getTypeMenu(productsList)
           });
         }
@@ -60,9 +55,6 @@ productSchema.find({}).exec(function(err, productsList) {
           state: 'Log in',
           producer: 'All',
           items: getHTMLProduct(productsList, null, null, null, '../images/'),
-          content_cart_icon: content_cart_icon,
-          qty: qty,
-          total: total,
           smartphone_menu: getTypeMenu(productsList)
         });
       }
@@ -322,9 +314,6 @@ productSchema.find({}).exec(function(err, productsList) {
           comment_list: getCommentList(productsList, product.productId, 1),
           page_list: getPageItems(productsList, product.productId),
           items: getHTMLProduct(productsList, product, null, null, '../images/'),
-          content_cart_icon: content_cart_icon,
-          qty: qty,
-          total: total,
           smartphone_menu: getTypeMenu(productsList)
         });
       }
@@ -352,9 +341,6 @@ productSchema.find({}).exec(function(err, productsList) {
         state: state,
         producer: req.params.producer,
         items: getHTMLProduct(productsList, null, req.params.producer, null, '../images/'),
-        content_cart_icon: content_cart_icon,
-        qty: qty,
-        total: total,
         smartphone_menu: getTypeMenu(productsList)
       });
     });
@@ -377,9 +363,6 @@ productSchema.find({}).exec(function(err, productsList) {
         state: state,
         producer: req.query.name.toLowerCase(),
         items: getHTMLProduct(productsList, null, null, req.query.name.toLowerCase(), '../images/'),
-        content_cart_icon: content_cart_icon,
-        qty: qty,
-        total: total,
         smartphone_menu: getTypeMenu(productsList)
       });
     });
@@ -405,7 +388,6 @@ productSchema.find({}).exec(function(err, productsList) {
       res.send(getCommentListStr(productsList, req.params.id, req.params.num));
     });
 
-    var content_cart = '';
     router.get('/shopping-cart', function(req, res) {
       var name = '', href = '', state = '', action = '';
       if (req.isAuthenticated()) {
@@ -418,16 +400,16 @@ productSchema.find({}).exec(function(err, productsList) {
         state = 'Log in';
         action = "document.getElementById('id01').style.display='block'";
       }
-
+      
+      let result = getCartProductListHTML(req.cookies.list);
+      
       res.render('cart', {title: 'Your Shopping Cart',
         name: name,
         href: href,
         action: action,
         state: state,
-        content_cart: content_cart,
-        content_cart_icon: content_cart_icon,
-        qty: qty,
-        total: total,
+        content_cart: result.html_object,
+        total: result.total_money.toLocaleString('vi') + '₫',
         smartphone_menu: getTypeMenu(productsList)
       });
     });

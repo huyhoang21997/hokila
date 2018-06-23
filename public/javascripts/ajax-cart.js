@@ -9,6 +9,8 @@ jQuery(document).ready(function($) {
     getHeaderCartProductListHTML(cart_product_list);
                 
     $("#add-to-cart").on('click', function(event) {
+        event.preventDefault();
+
         // display quantity of all cart products
         var qty = $(".cart_no").text();
         if (qty === "") {
@@ -62,11 +64,21 @@ jQuery(document).ready(function($) {
             
             $(".cart_no").html(qty);               
             $(".total strong").text(new_price.toLocaleString('vi') + '₫');              
-            localStorage.setItem("cart_product_list", JSON.stringify(cart_product_list));          
+            localStorage.setItem("cart_product_list", JSON.stringify(cart_product_list));
+            console.log('done');          
         })
         .fail(function(data) {
             console.log('fail');
         });
+    });
+
+    $(".cart-icon").on('click', function(event) {
+        event.preventDefault();
+        let list = localStorage.getItem("cart_product_list") || "[]";
+        var arr = [];
+        arr.push(list);
+        document.cookie = "list=" + arr;
+        window.location = "./shopping-cart";
     });
 
     function getHeaderCartProductListHTML(cartProductList) {
@@ -74,47 +86,17 @@ jQuery(document).ready(function($) {
         var quantity = 0;
     
         for (var i = 0; i < cartProductList.length; i++) {
-            let product_cart = JSON.parse(cartProductList[i]);
-            totalMoney += product_cart.price * product_cart.qty;
-            quantity += product_cart.qty;
+            let cart_product = JSON.parse(cartProductList[i]);
+            totalMoney += cart_product.price * cart_product.qty;
+            quantity += cart_product.qty;
     
-            $(".option-cart-item").prepend(getHeaderCartProductHTML(product_cart.id, product_cart.name, product_cart.price, product_cart.qty));
+            $(".option-cart-item").prepend(getHeaderCartProductHTML(cart_product.id, cart_product.name, cart_product.price, cart_product.qty));
         }
     
         $(".cart_no").html(quantity);
         $(".total strong").text(totalMoney.toLocaleString('vi') + '₫');
     }
 });
-
-function getCartProductHTML(id, name, price) {
-    var html_object = '';
-    
-        html_object = '<tr>\
-          <td>\
-            <img src="../images/' + id + '_1.jpg" alt="">\
-          </td>\
-          <td>\
-            <div class="shop-details">\
-              <div class="productname">' + name + '</div>\
-            </div>\
-          </td>\
-          <td>\
-            <h5>' + price.toLocaleString('vi') + '₫</h5>\
-          </td>\
-          <td>\
-            <div class="qty">\
-              <span class="qty-minus">-</span>\
-              <input class="qty-num" type="text" readonly value="1">\
-              <span class="qty-plus">+</span>\
-            </div>\
-          </td>\
-          <td>\
-            <img src="../images/remove.png" alt="">\
-          </td>\
-        </tr>';
-  
-    return html_object;
-  }
   
   function getHeaderCartProductHTML(id, name, price, qty) {
     var html_object = '';
@@ -134,7 +116,7 @@ function getCartProductHTML(id, name, price) {
           </div>\
           <div class="right">\
             <a href="#" class="remove">\
-              <img src="../images/remove.png" alt="remove">\
+              <img id="remove-cart-product" src="../images/remove.png" alt="remove">\
             </a>\
           </div>\
         </div>\
