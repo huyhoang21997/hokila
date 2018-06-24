@@ -246,13 +246,13 @@ function getCartProductHTML(id, name, price, qty) {
         </td>\
         <td>\
           <div class="qty">\
-            <span class="qty-minus">-</span>\
-            <input class="qty-num" type="text" readonly value="' + qty + '">\
-            <span class="qty-plus">+</span>\
+            <span id="' + id + '" class="qty-minus">-</span>\
+            <input style="width:50px" class="qty-num" name="' + id + '" type="text" value="' + qty + '">\
+            <span id="' + id + '" class="qty-plus">+</span>\
           </div>\
         </td>\
         <td>\
-          <img id="remove-cart-product" src="../images/remove.png" alt="">\
+          <img class="remove-cart-product" id="' + id + '" src="../images/remove.png" alt="">\
         </td>\
       </tr>';
 
@@ -263,7 +263,7 @@ function getCartProductListHTML(cartProductList) {
   let cart_product_list = JSON.parse(cartProductList);
   var html_object = '';
   var total_money = 0;
-  for (var i = 0; i < cart_product_list.length; i++) {
+  for (var i = cart_product_list.length - 1; i >= 0; i--) {
     let cart_product = JSON.parse(cart_product_list[i]);
     total_money += cart_product.price * cart_product.qty;
     html_object += getCartProductHTML(cart_product.id, cart_product.name, cart_product.price, cart_product.qty);
