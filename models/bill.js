@@ -1,13 +1,25 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var billSchema = new Schema({
-    product: {type: Schema.ObjectId, ref: 'product', required: true},
-    date: {type: Date, default: Date.now},
+
+var cartProductSchema = new Schema({
+    productId: {type: String, required: true},
+    productName: {type: String, required: true},
+    unitPrice: {type: Number, required: true, min: 0},
     count: {type: Number, required: true, min: 0},
-    unitprice: {type: Number, required: true, min: 0},
-    state: {type: Boolean, required: true}
-})
-billSchema.virtual('total').get(function() {
-    return this.count*this.unitprice;
+    total_unit_price: {type: Number, required: true, min: 0}
 });
+
+var billSchema = new Schema({
+    customer: {type: String, required: true},
+    product: {type: [cartProductSchema], required: true},
+    date: {type: Date, default: Date.now},
+    state: {type: String, required: true},
+    fullname: {type: String, required: true},
+    phone: {type: String, required: true},
+    address: {type: String, required: true},
+    total_count: {type: Number, required: true},
+    total_price: {type: Number, required: true},
+    saler_name: {type: String}
+});
+
 module.exports = mongoose.model('bill', billSchema);

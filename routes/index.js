@@ -22,6 +22,7 @@ router.use(passport.session());
 const db = require('../models/connection');
 const productSchema = require('../models/product');
 const accountSchema = require('../models/account');
+const billSchema = require('../models/bill');
 productSchema.find({}).exec(function(err, productsList) {
   if (!err) {
     console.log('Da tao xong server');
@@ -416,6 +417,35 @@ productSchema.find({}).exec(function(err, productsList) {
 
     router.post('/shopping-cart/:id', function(req, res) {
       res.send(getCartProduct(productsList, req.params.id));
+    });
+
+    billSchema.find({}).exec(function(err, billsList) {
+      router.post('/checkout/:username', function(req, res) {
+        if(req.isAuthenticated()) {
+          var bill = {
+            customer: req.params.username,
+            date: req.body.date,
+            state: "Not delivered",
+            product: JSON.parse(req.body.list),
+            fullname: req.body.fullname,
+            phone: req.body.phone,
+            address: req.body.address,
+            total_count: req.body.total_count,
+            total_price: req.body.total_price
+          };         
+          
+          var new_bill = new billSchema(bill);
+          new_bill.save(function(err) {
+            if (err) {
+              console.log(err);
+            }
+            else {
+              console.log("success");
+            }
+          });
+          res.send('success');
+        }
+      });
     });
   }
 });
