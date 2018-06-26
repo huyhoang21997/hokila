@@ -1,0 +1,117 @@
+<div class="wrapper">
+    <table>
+        <thead>
+            <tr style="background-color: rgba(0,0,0,.1);">
+                <th style="width:190px">ID</th>
+                <th style="width:190px">Date</th>
+                <th style="width:190px">Total Count</th>
+                <th style="width:190px">Total Price</th>
+                <th style="width:190px">State</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{{items}}}
+        </tbody>
+    </table>
+</div>
+
+<div class="usermenu">
+    <div id="id07" class="modal">
+        <div class="modal-content animate">
+            <div class="imgcontainer">
+                <button type="reset" onclick="document.getElementById('id07').style.display='none'" class="close" title="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="view-container">
+                <h1 style="text-align:center">Detail Order</h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="id">ID:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="id" id="id" required readonly>
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="date">Date:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="date" id="date" required readonly>
+                        </div>                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="total_count">Total Count:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="total_count" id="total_count" required readonly>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="total_price">Total Price:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="total_price" id="total_price" required readonly>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="fullname">Fullname:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="fullname" id="fullname" required readonly>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="phone">Phone:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="phone" id="phone" required readonly>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="address">Address:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="address" id="address" required readonly>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="state">State:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="state" id="state" required readonly>
+                        </div> 
+                    </div>
+                    <div class="wrapper">
+                        <table>
+                            <thead>
+                                <tr style="background-color: rgba(0,0,0,.1);">
+                                    <th style="width:237px">Product Name</th>
+                                    <th style="width:237px">Count</th>
+                                    <th style="width:237px">Unit Price</th>
+                                    <th style="width:237px">Total Unit Price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart_product_list">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <button class="cancelbtn" type="reset" onclick="document.getElementById('id07').style.display='none'">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

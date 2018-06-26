@@ -277,6 +277,20 @@ function getCartProductListHTML(cartProductList) {
   return result;
 }
 
+function getOrderRowTableHTML(billsList) {
+  var html_string = '';
+  for (var i = 0; i < billsList.length; i++) {
+      html_string += '<tr onclick="viewDetailOrder('+billsList[i]+')">';
+      html_string += '<td>#' + billsList[i]._id + '</td>';
+      html_string += '<td>' + billsList[i].date + '</td>';
+      html_string += '<td>' + billsList[i].total_count + '</td>';   
+      html_string += '<td>' + billsList[i].total_price + '</td>';         
+      html_string += '</tr>';
+  }
+  
+  return new DOMParser().parseFromString(html_string);
+}
+
 module.exports.getHTMLProduct = getHTMLProduct;
 module.exports.getHTMLRowTable = getHTMLRowTable;
 module.exports.getTypeMenu = getTypeMenu;
@@ -286,3 +300,4 @@ module.exports.getCommentList = getCommentList;
 module.exports.getPageItems = getPageItems;
 module.exports.getCartProduct = getCartProduct;
 module.exports.getCartProductListHTML = getCartProductListHTML;
+module.exports.getOrderRowTableHTML = getOrderRowTableHTML;

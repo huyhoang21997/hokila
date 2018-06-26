@@ -10,6 +10,7 @@ const getCommentListStr = require('../views/views').getCommentListStr;
 const getPageItems = require('../views/views').getPageItems;
 const getCartProduct = require('../views/views').getCartProduct;
 const getCartProductListHTML = require('../views/views').getCartProductListHTML;
+const getOrderRowTableHTML = require('../views/views').getOrderRowTableHTML;
 // bussiness
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -420,32 +421,49 @@ productSchema.find({}).exec(function(err, productsList) {
     });
 
     billSchema.find({}).exec(function(err, billsList) {
-      router.post('/checkout/:username', function(req, res) {
-        if(req.isAuthenticated()) {
-          var bill = {
-            customer: req.params.username,
-            date: req.body.date,
-            state: "Not delivered",
-            product: JSON.parse(req.body.list),
-            fullname: req.body.fullname,
-            phone: req.body.phone,
-            address: req.body.address,
-            total_count: req.body.total_count,
-            total_price: req.body.total_price
-          };         
-          
-          var new_bill = new billSchema(bill);
-          new_bill.save(function(err) {
-            if (err) {
-              console.log(err);
-            }
-            else {
-              console.log("success");
-            }
-          });
-          res.send('success');
-        }
-      });
+      if (!err) {
+        router.post('/checkout/:username', function(req, res) {
+          if(req.isAuthenticated()) {
+            var bill = {
+              customer: req.params.username,
+              date: req.body.date,
+              state: "Not delivered",
+              product: JSON.parse(req.body.list),
+              fullname: req.body.fullname,
+              phone: req.body.phone,
+              address: req.body.address,
+              total_count: req.body.total_count,
+              total_price: req.body.total_price
+            };         
+            
+            var new_bill = new billSchema(bill);
+            new_bill.save(function(err) {
+              if (err) {
+                console.log(err);
+              }
+              else {
+                console.log("success");
+              }
+            });
+            res.send('success');
+          }
+        });
+
+        router.get('/manage-orders', function(req, res) {
+          var href = '', state = '', action = '';
+          if (req.isAuthenticated()) {
+            res.render('admin-order', {
+              layout: 'admin-layout',
+              title: "Manage Orders",
+              name: req.user.username,
+              items: getOrderRowTableHTML(billsList)
+            });
+          }
+          else {
+            res.render(err);
+          }
+        });
+      }
     });
   }
 });
