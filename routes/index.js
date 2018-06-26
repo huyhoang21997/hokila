@@ -463,6 +463,13 @@ productSchema.find({}).exec(function(err, productsList) {
             res.render(err);
           }
         });
+
+        router.get('/data/bill/:id', function(req, res) {
+          var bill = billsList.find(element => element._id == req.params.id)
+          res.writeHead(200, {"Content-Type": "text/JSON"})
+          res.write(JSON.stringify(bill))
+          res.end()
+        })
       }
     });
   }

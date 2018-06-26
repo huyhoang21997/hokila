@@ -90,14 +90,14 @@
                             <input type="text" name="state" id="state" required readonly>
                         </div> 
                     </div>
-                    <div class="wrapper">
+                    <div style="margin: 8px 0">
                         <table>
                             <thead>
                                 <tr style="background-color: rgba(0,0,0,.1);">
-                                    <th style="width:237px">Product Name</th>
-                                    <th style="width:237px">Count</th>
-                                    <th style="width:237px">Unit Price</th>
-                                    <th style="width:237px">Total Unit Price</th>
+                                    <th style="width:450px">Product Name</th>
+                                    <th style="width:100px">Count</th>
+                                    <th style="width:200px">Unit Price</th>
+                                    <th style="width:200px">Total Unit Price</th>
                                 </tr>
                             </thead>
                             <tbody id="cart_product_list">
@@ -106,7 +106,7 @@
                         </table>
                     </div>
                     <div class="row">
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-12 col-sm-12">
                             <button class="cancelbtn" type="reset" onclick="document.getElementById('id07').style.display='none'">Cancel</button>
                         </div>
                     </div>
@@ -115,3 +115,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    jQuery(document).ready(function($) {
+        $("select").change(function(){
+            
+        });
+    });
+</script>
+    }
+</script>

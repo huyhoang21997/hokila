@@ -97,29 +97,39 @@
             document.getElementById('id06').style.display='block';
         }
 
-        function viewDetailOrder(bill) {
-            console.log(bill)
-            document.getElementById("id").value = bill._id;
-            document.getElementById('date').value = bill.date;
-            document.getElementById('total_count').value = bill.total_count;
-            document.getElementById('total_price').value = bill.total_price;
-            document.getElementById('fullname').value = bill.fullname;
-            document.getElementById('phone').value = bill.phone;
-            document.getElementById('address').value = bill.address;
-            document.getElementById('state').value = bill.state;
+        function viewDetailOrder(_id) {
+            var xhttp = new XMLHttpRequest()
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var bill = JSON.parse(this.response)
+                    document.getElementById("id").value = bill._id;
+                    let d = new Date(bill.date)
+                    let month = d.getMonth() + 1;
+                    document.getElementById('date').value = d.getDate() + '/' + month + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+                    document.getElementById('total_count').value = bill.total_count;
+                    document.getElementById('total_price').value = bill.total_price.toLocaleString('vi') + '₫';
+                    document.getElementById('fullname').value = bill.fullname;
+                    document.getElementById('phone').value = bill.phone;
+                    document.getElementById('address').value = bill.address;
+                    document.getElementById('state').value = bill.state;
 
-            var html_string = '';
-            for (var i = 0; i < bill.product.length; i++) {
-                html_string += '<tr>';
-                html_string += '<td>' + bill.product[i].productName + '</td>';
-                html_string += '<td>' + bill.product[i].count + '</td>';
-                html_string += '<td>' + bill.product[i].unitPrice + '</td>';   
-                html_string += '<td>' + bill.product[i].total_unit_price + '</td>';    
-                html_string += '</tr>';
+                    var html_string = '';
+                    for (var i = 0; i < bill.product.length; i++) {
+                        html_string += '<tr>';
+                        html_string += '<td>' + bill.product[i].productName + '</td>';
+                        html_string += '<td>' + bill.product[i].count + '</td>';
+                        html_string += '<td>' + bill.product[i].unitPrice.toLocaleString('vi') + '₫</td>';   
+                        html_string += '<td>' + bill.product[i].total_unit_price.toLocaleString('vi') + '₫</td>';    
+                        html_string += '</tr>';
+                    }
+                    document.getElementById('cart_product_list').innerHTML = html_string;
+                    document.getElementById('id07').style.display='block';
+                }
             }
-            document.getElementById('cart_product_list').innerHTML = html_string;
-            document.getElementById('id07').style.display='block';
+            xhttp.open("GET", "/data/bill/" + _id, true)
+            xhttp.send()
         }
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
 </html>

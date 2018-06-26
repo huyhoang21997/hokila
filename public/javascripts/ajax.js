@@ -46,9 +46,10 @@ jQuery(document).ready(function($) {
         })
         .done(function(data) {
             // insert comment at the beginning of comment list
+            let month = formData.date.getMonth() + 1;
             $(".cmt-list").prepend('\
             <p style="font-size: 15px; font-weight: bold;">' + formData.username + '</p>\
-            <p style="font-size: 13px; color: #9b9b9b;">' + formData.date.getDate() + '/' + formData.date.getMonth() + '/' + formData.date.getFullYear() + ' ' + formData.date.getHours() + ':' + formData.date.getMinutes() + '</p>\
+            <p style="font-size: 13px; color: #9b9b9b;">' + formData.date.getDate() + '/' + month + '/' + formData.date.getFullYear() + ' ' + formData.date.getHours() + ':' + formData.date.getMinutes() + '</p>\
             <p style="font-size: 14px">' + formData.content + '</p>\
             <hr>\
             ');

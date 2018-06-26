@@ -167,10 +167,11 @@ function getCommentListStr(productsList, productId, num) {
       }   
 
       for (let j = startPos; j > endPos; j--) {
+        let month = productsList[i].comment[j].date.getMonth() + 1;
         html_object += '\
           <p style="font-size: 15px; font-weight: bold;">' + productsList[i].comment[j].username + '</p>\
           <p style="font-size: 13px; color: #9b9b9b;">' + productsList[i].comment[j].date.getDate() 
-          + '/' + productsList[i].comment[j].date.getMonth() 
+          + '/' + month 
           + '/' + productsList[i].comment[j].date.getFullYear() 
           + ' ' + productsList[i].comment[j].date.getHours() 
           + ':' + productsList[i].comment[j].date.getMinutes() + '</p>\
@@ -280,12 +281,18 @@ function getCartProductListHTML(cartProductList) {
 function getOrderRowTableHTML(billsList) {
   var html_string = '';
   for (var i = 0; i < billsList.length; i++) {
-      html_string += '<tr onclick="viewDetailOrder('+billsList[i]+')">';
-      html_string += '<td>#' + billsList[i]._id + '</td>';
-      html_string += '<td>' + billsList[i].date + '</td>';
-      html_string += '<td>' + billsList[i].total_count + '</td>';   
-      html_string += '<td>' + billsList[i].total_price + '</td>';         
-      html_string += '</tr>';
+    let month = billsList[i].date.getMonth() + 1;
+    html_string += '<tr ondblclick="viewDetailOrder(' + "'" + billsList[i]._id + "'" + ')">'
+    html_string += '<td>' + billsList[i]._id + '</td>'
+    html_string += '<td>' + billsList[i].date.getDate() + '/' + month + '/' + billsList[i].date.getFullYear() + ' ' + billsList[i].date.getHours() + ':' + billsList[i].date.getMinutes() + '</td>'
+    html_string += '<td>' + billsList[i].total_count + '</td>'   
+    html_string += '<td>' + billsList[i].total_price.toLocaleString('vi') + '₫</td>'
+    html_string += '<td><select name="state">\
+                      <option value="Not Delivered">Not Delivered</option>\
+                      <option value="Delivering">Delivering</option>\
+                      <option value="Delivered">Delivered</option>\
+                    </select></td>'         
+    html_string += '</tr>'
   }
   
   return new DOMParser().parseFromString(html_string);
