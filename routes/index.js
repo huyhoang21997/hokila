@@ -699,9 +699,15 @@ async.parallel([
           role = "Quanly"
         }
         if (role != "Quanly") {
-          console.log('')
           let result = getCartProductListHTML(req.cookies.list);
-      
+          if (result == null) {
+            result = {
+              html_object: "",
+              total_money: "0"
+            }
+          }
+
+
           res.render('cart', {title: 'Your Shopping Cart',
             display1: display1,
             display2: display2,

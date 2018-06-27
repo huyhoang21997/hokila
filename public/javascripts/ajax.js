@@ -17,6 +17,7 @@ jQuery(document).ready(function($) {
         }
         if (username.length === 0) {
             alert('Please don\'t let your name be empty')
+            return
         }
 
         let date = new Date();
@@ -39,10 +40,6 @@ jQuery(document).ready(function($) {
             <p style="font-size: 14px">' + formData.content + '</p>\
             <hr>\
             ');
-            
-            $("#cmt-txt").val('');
-            $("#cmt-name").val('');
-            $("#cmt-name").hide();
 
             console.log('done');
         })

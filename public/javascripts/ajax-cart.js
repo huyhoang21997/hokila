@@ -69,8 +69,8 @@ jQuery(document).ready(function($) {
 
     $(".cart-icon").on('click', function(event) {
         event.preventDefault();
-        console.log("")
         let list = localStorage.getItem("cart_product_list") || "[]";
+        console.log(list)
         var arr = [];
         arr.push(list);
         document.cookie = "list=" + arr;
