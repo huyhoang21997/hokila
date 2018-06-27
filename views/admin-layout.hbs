@@ -103,12 +103,12 @@
             var xhttp = new XMLHttpRequest()
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log(this.response)
                     var bill = JSON.parse(this.response)
                     document.getElementById("id").value = bill._id;
-                    document.getElementById('date').value = bill.date;
+                    let d = new Date(bill.date);
+                    document.getElementById('date').value = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
                     document.getElementById('total_count').value = bill.total_count;
-                    document.getElementById('total_price').value = bill.total_price;
+                    document.getElementById('total_price').value = bill.total_price.toLocaleString('vi') + '₫';
                     document.getElementById('fullname').value = bill.fullname;
                     document.getElementById('phone').value = bill.phone;
                     document.getElementById('address').value = bill.address;
@@ -119,8 +119,8 @@
                         html_string += '<tr>';
                         html_string += '<td>' + bill.product[i].productName + '</td>';
                         html_string += '<td>' + bill.product[i].count + '</td>';
-                        html_string += '<td>' + bill.product[i].unitPrice + '</td>';   
-                        html_string += '<td>' + bill.product[i].total_unit_price + '</td>';    
+                        html_string += '<td>' + bill.product[i].unitPrice.toLocaleString('vi') + '₫' + '</td>';   
+                        html_string += '<td>' + bill.product[i].total_unit_price.toLocaleString('vi') + '₫' + '</td>';    
                         html_string += '</tr>';
                     }
                     document.getElementById('cart_product_list').innerHTML = html_string;
@@ -131,5 +131,6 @@
             xhttp.send()
         }
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
 </html>

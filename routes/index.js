@@ -44,9 +44,6 @@ async.parallel([
       var productsList = results[0]
       var accountsList = results[1]
       var billsList = results[2]
-      var content_cart_icon = ""
-      var qty = ""
-      var total = ""
       var listRegister = []
       // controller
       // hien thi san pham
@@ -61,9 +58,6 @@ async.parallel([
               name: req.user.username,
               producer: "Hot",
               items: getHTMLProduct(productsList, null, null, null, "../images/"),
-              content_cart_icon: content_cart_icon,
-              qty: qty,
-              total: total,
               smartphone_menu: getTypeMenu(productsList)
             })
           }
@@ -83,9 +77,6 @@ async.parallel([
             display4: "none",
             producer: "All",
             items: getHTMLProduct(productsList, null, null, null, "../images/"),
-            content_cart_icon: content_cart_icon,
-            qty: qty,
-            total: total,
             smartphone_menu: getTypeMenu(productsList)
           })
         }
@@ -112,9 +103,6 @@ async.parallel([
               name: req.user.username,
               producer: "Hot",
               items: getHTMLProduct(productsList, null, null, null, "../images/"),
-              content_cart_icon: content_cart_icon,
-              qty: qty,
-              total: total,
               smartphone_menu: getTypeMenu(productsList)
             })
           }
@@ -148,9 +136,6 @@ async.parallel([
             request: request,
             producer: "All",
             items: getHTMLProduct(productsList, null, null, null, "../images/"),
-            content_cart_icon: content_cart_icon,
-            qty: qty,
-            total: total,
             smartphone_menu: getTypeMenu(productsList)
           })
         }
@@ -202,9 +187,6 @@ async.parallel([
               comment_list: getCommentList(productsList, product.productId, 1),
               page_list: getPageItems(productsList, product.productId),
               items: getHTMLProduct(productsList, product, null, null, "../images/"),
-              content_cart_icon: content_cart_icon,
-              qty: qty,
-              total: total,
               smartphone_menu: getTypeMenu(productsList)
             })
           }
@@ -241,9 +223,6 @@ async.parallel([
             name: name,
             producer: req.params.producer,
             items: getHTMLProduct(productsList, null, req.params.producer, null, "../images/"),
-            content_cart_icon: content_cart_icon,
-            qty: qty,
-            total: total,
             smartphone_menu: getTypeMenu(productsList)
           })
           return
@@ -279,9 +258,6 @@ async.parallel([
             name: name,
             producer: req.query.name.toLowerCase(),
             items: getHTMLProduct(productsList, null, null, req.query.name.toLowerCase(), "../images/"),
-            content_cart_icon: content_cart_icon,
-            qty: qty,
-            total: total,
             smartphone_menu: getTypeMenu(productsList)
           })
           return

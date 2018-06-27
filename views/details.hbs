@@ -1,16 +1,9 @@
-    <div class="wrapper">
-      
-      <div class="clearfix"></div>
-      <div class="container_fullwidth">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="products-details">
-                {{!-- <div class="preview_image">
-                  <div class="preview-small">
-                    <img src= "{{main_src}}" alt="">
-                  </div>
-                </div> --}}
+<div class="wrapper">
+  <div class="container_fullwidth">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="products-details">
                 <div class="preview_image">
                   <div class="preview-small">
                     <img id="zoom_03" src="{{main_src}}_1.jpg" data-zoom-image="{{main_src}}_1.jpg" alt="">
@@ -37,20 +30,7 @@
                           <img src="{{main_src}}_4.jpg" alt="">
                         </a>
                       </li>
-                      {{!-- <li>
-                        <a href="#" data-image="images/products/medium/products-05.jpg" data-zoom-image="images/products/Large/products-05.jpg">
-                          <img src="{{main_src}}" alt="">
-                        </a>
-                      </li> --}}
                     </ul>
-                    {{!-- <a class="control-left" id="thum-prev" href="javascript:void(0);">
-                      <i class="fa fa-chevron-left">
-                      </i>
-                    </a>
-                    <a class="control-right" id="thum-next" href="javascript:void(0);">
-                      <i class="fa fa-chevron-right">
-                      </i>
-                    </a> --}}
                   </div>
 
                   <div class="usermenu" style="float: none; margin: 8px 44px;">
@@ -100,14 +80,15 @@
                   <div class="row">
                     <div class="col-md-3 col-sm-3">OS:</div>
                     <div class="col-md-9 col-sm-9">{{main_os}}</div>
-                  </div>
-                  {{!-- <hr class="border"> --}}
-                  <div class="clearfix"></div>
-                  <div class="clearfix"></div>
-                </div>
+                  </div>               
+                </div>              
+          </div>
+        </div>
+      </div>
 
                 {{!-- COMMENT TEXTFIELD --}}
                 <div class="well">
+                  <h5 style="font-weight:400">Write your comment ...<span class="glyphicon glyphicon-pencil"></span></h5>
                   <form method="post">
                     <div class="form-group">
                       <textarea class="form-control" rows="3" id="cmt-txt" required></textarea>
@@ -125,7 +106,7 @@
                 <ul class="pagination pagination-lg pull-right">
                   {{{page_list}}}
                 </ul>
-              </div>
+
               <div id="productsDetails" class="hot-products">
                 <h3 class="title">
                   <strong> Similar </strong>
@@ -141,38 +122,10 @@
                 </div>
 
                 <ul id="hot">
-                  {{!-- <li>
-                    <div class="row">
-                      <div class="col-md-3 col-sm-3">
-                        <div class="products">
-                          {{{item0}}}
-                        </div>
-                      </div>
-                      <div class="col-md-3 col-sm-3">
-                        <div class="products">
-                          {{{item1}}}
-                        </div>
-                      </div>
-                      <div class="col-md-3 col-sm-3">
-                        <div class="products">
-                          {{{item2}}}
-                        </div>
-                      </div>
-                      <div class="col-md-3 col-sm-3">
-                        <div class="products">
-                          {{{item0}}}
-                        </div>
-                      </div>
-                    </div>
-                  </li> --}}
                   {{{items}}}
                 </ul>
-              </div>
-            </div>
-          </div>     
-          <div class="clearfix"></div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
+              </div>       
     </div>
+  </div>
+</div>
     
