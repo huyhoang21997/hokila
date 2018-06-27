@@ -48,7 +48,8 @@
         <div class="user-area">
             <span>{{name}}</span>
             <span>&nbsp;|&nbsp;</span>
-            <a href="/logout" class="log-out">Log out</a>      
+            <a href="#" class="log-out" onclick="document.getElementById('log_out').submit()">Log out</a>
+            <form id="log_out" method="POST" action="/logout"></form>    
         </div>
     </header>
     <section class="content-area">
@@ -97,17 +98,17 @@
             document.getElementById('id06').style.display='block';
         }
 
+
         function viewDetailOrder(_id) {
             var xhttp = new XMLHttpRequest()
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.response)
                     var bill = JSON.parse(this.response)
                     document.getElementById("id").value = bill._id;
-                    let d = new Date(bill.date)
-                    let month = d.getMonth() + 1;
-                    document.getElementById('date').value = d.getDate() + '/' + month + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+                    document.getElementById('date').value = bill.date;
                     document.getElementById('total_count').value = bill.total_count;
-                    document.getElementById('total_price').value = bill.total_price.toLocaleString('vi') + '₫';
+                    document.getElementById('total_price').value = bill.total_price;
                     document.getElementById('fullname').value = bill.fullname;
                     document.getElementById('phone').value = bill.phone;
                     document.getElementById('address').value = bill.address;
@@ -118,8 +119,8 @@
                         html_string += '<tr>';
                         html_string += '<td>' + bill.product[i].productName + '</td>';
                         html_string += '<td>' + bill.product[i].count + '</td>';
-                        html_string += '<td>' + bill.product[i].unitPrice.toLocaleString('vi') + '₫</td>';   
-                        html_string += '<td>' + bill.product[i].total_unit_price.toLocaleString('vi') + '₫</td>';    
+                        html_string += '<td>' + bill.product[i].unitPrice + '</td>';   
+                        html_string += '<td>' + bill.product[i].total_unit_price + '</td>';    
                         html_string += '</tr>';
                     }
                     document.getElementById('cart_product_list').innerHTML = html_string;
@@ -130,6 +131,5 @@
             xhttp.send()
         }
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@ jQuery(document).ready(function($) {
     getHeaderCartProductListHTML(cart_product_list);
                 
     $("#add-to-cart").on('click', function(event) {
+        console.log("Hello")
         event.preventDefault();
 
         // display quantity of all cart products
@@ -68,6 +69,7 @@ jQuery(document).ready(function($) {
 
     $(".cart-icon").on('click', function(event) {
         event.preventDefault();
+        console.log("")
         let list = localStorage.getItem("cart_product_list") || "[]";
         var arr = [];
         arr.push(list);

@@ -3,7 +3,8 @@ jQuery(document).ready(function($) {
         event.preventDefault();
 
         let username = $("#log-name").text();
-        if (username === "") {
+
+        if (username.length == 0) {
             alert('Please log in');
             return;
         }
@@ -80,7 +81,7 @@ jQuery(document).ready(function($) {
             console.log('done');
         })
         .fail(function(data) {
-            console.log('fail');
+            alert('Please login before checking out')
         });
     });
 });

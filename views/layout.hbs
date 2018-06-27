@@ -16,7 +16,7 @@
     <link href="../stylesheets/loginform.css" rel="stylesheet">
     <link href="../stylesheets/table.css" rel="stylesheet">
   </head>
-  <body>
+  <body onload="{{request}}">
     
     <div class="header">
         <div class="container">
@@ -31,32 +31,93 @@
                 <div class="row">
                   <div class="col-md-12">
                     <ul class="usermenu">
-                      <li>                        
-                        <a href="{{href}}" class="log" onclick="{{action}}">
-                          <span id="log-name">{{name}}</span>
-                          {{state}}
-                        </a>      
-                      </li>
-                      {{!-- <li>
-                        <a href="{{href}}" class="log" onclick="{{action}}"> {{state}} </a>
-                      </li> --}}
+
                       <div id="id01" class="modal">
-                        <form class="modal-content animate" method="post" action="/login">
-                          <div class="imgcontainer">
-                            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close">&times;</span>
-                          </div>
+                        <form class="modal-content animate" method="POST" action="/login">
                           <div class="container">
                             <label for="username"><b>Username</b></label>
                             <input type="text" placeholder="Enter Username" name="username" required>
                             <label for="password"><b>Password</b></label>
                             <input type="password" placeholder="Enter Password" name="password" required>
                             <button type="submit">Login</button>
+                            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
                             <label>
                               <input type="checkbox" checked="checked" name="remember"> Remember me
                             </label>
+                            <span class="psw">Forgot <a href="#" onclick="document.getElementById('id01').style.display='none';document.getElementById('id04').style.display='block'">password?</a></span>
                           </div>
                         </form>
                       </div>
+
+                      <div id="id02" class="modal">
+                        <form class="modal-content animate" method="POST" action="/register">
+                          <div class="container">
+                            <label for="email"><b>Email</b></label>
+                            <input type="text" placeholder="Enter Email" name="email" required>
+                            <label for="username"><b>Username</b></label>
+                            <input type="text" placeholder="Enter Username" name="username" required>
+                            <label for="password"><b>Password</b></label>
+                            <input type="password" placeholder="Enter Password" name="password" required>
+                            <button type="submit">Register</button>
+                            <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+                          </div>
+                        </form>
+                      </div>
+
+                      <div id="id03" class="modal">
+                        <form class="modal-content animate" method="POST" action="/reset">
+                          <div class="container">
+                            <label for="oldpassword"><b>Old-password</b></label>
+                            <input type="password" placeholder="Enter Password" name="oldpassword" required>
+                            <label for="newpassword"><b>New-Password</b></label>
+                            <input type="password" placeholder="Enter Password" name="newpassword" required>
+                            <button type="submit">Reset-password</button>
+                            <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn">Cancel</button>
+                          </div>
+                        </form>
+                      </div>
+
+
+                      <div id="id04" class="modal">
+                        <form class="modal-content animate" method="POST" action="/forgot">
+                          <div class="container">
+                            <label for="email"><b>Your Email</b></label>
+                            <input type="text" placeholder="Enter Email" name="email" required>
+                            <button type="submit">Get your password</button>
+                            <button type="button" onclick="document.getElementById('id04').style.display='none'" class="cancelbtn">Cancel</button>
+                          </div>
+                        </form>
+                      </div>
+
+                      <form id="log_out" method="POST" action="/logout"></form>
+                      
+                      <li style="display:{{display1}}">                     
+                        <a href="#" class="log" onclick="document.getElementById('id01').style.display='block'">
+                          Login
+                        </a>      
+                      </li>
+
+                      <li style="display:{{display2}}">
+                        <a href="#" class="reg" onclick="document.getElementById('id02').style.display='block'">
+                          Register
+                        </a>
+                      </li>
+
+                      <li style="display:{{display3}}">
+                        <a href="#" class="log" onclick="document.getElementById('log_out').submit()">
+                          <span id="log-name">
+                            {{name}}
+                          </span>
+                          - Logout
+                        </a>
+                      </li>
+
+                      <li style="display:{{display4}}">
+                        <a href="#" class="reg" onclick="document.getElementById('id03').style.display='block'">
+                          Reset-password
+                        </a>
+                      </li>
+                      
                     </ul>
                   </div>
                 </div>
@@ -73,12 +134,14 @@
 
                   <li class="option-cart">
                     <a href="/shopping-cart" class="cart-icon">
-                      <span style="color:red; font-weight:900" class="cart_no"></span>
+                      <span style="color:red; font-weight:900" class="cart_no">{{qty}}</span>
                     </a>
                     
                     <ul class="option-cart-item">
+                      {{{content_cart_icon}}}
                       <li>
-                        <span class="total"><strong></strong></span>
+                        <span class="total"><strong>{{total}}</strong></span>
+                        <button class="checkout">Checkout</button>
                       </li>
                     </ul>
                   </li>

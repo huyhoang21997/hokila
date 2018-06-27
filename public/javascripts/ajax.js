@@ -1,6 +1,4 @@
 jQuery(document).ready(function($) {
-    // hide textfield for inputing username
-    $("#cmt-name").hide();
 
     let pathname = window.location.pathname;
     let sep = pathname.lastIndexOf('/');
@@ -10,26 +8,15 @@ jQuery(document).ready(function($) {
     $("#cmt-sm").on('click', function(event) {
         event.preventDefault();
 
-        let username = $("#log-name").html();
-        let cmt_name = $("#cmt-name").val();
-        if (cmt_name === "" && $("#cmt-name").is(":visible") === true) {
-            alert('Please input your name');
-            return;
-        }
-        if (username === "" && cmt_name === "") {
-            // show textfield for inputing username if customers don't want to log in
-            $("#cmt-name").show();
-            return;
-        }
-        // if customers don't log in, we will use name that they input 
-        if (username === "") {
-            username = cmt_name;
-        }
+        let username = $("#cmt-name").val();
 
         let content = $("#cmt-txt").val();
         if (content.length === 0) {
             alert('Please don\'t let your comment be empty');
             return;
+        }
+        if (username.length === 0) {
+            alert('Please don\'t let your name be empty')
         }
 
         let date = new Date();
@@ -46,10 +33,9 @@ jQuery(document).ready(function($) {
         })
         .done(function(data) {
             // insert comment at the beginning of comment list
-            let month = formData.date.getMonth() + 1;
             $(".cmt-list").prepend('\
             <p style="font-size: 15px; font-weight: bold;">' + formData.username + '</p>\
-            <p style="font-size: 13px; color: #9b9b9b;">' + formData.date.getDate() + '/' + month + '/' + formData.date.getFullYear() + ' ' + formData.date.getHours() + ':' + formData.date.getMinutes() + '</p>\
+            <p style="font-size: 13px; color: #9b9b9b;">' + formData.date.getDate() + '/' + (formData.date.getMonth() + 1) + '/' + formData.date.getFullYear() + ' ' + formData.date.getHours() + ':' + formData.date.getMinutes() + '</p>\
             <p style="font-size: 14px">' + formData.content + '</p>\
             <hr>\
             ');
