@@ -265,7 +265,7 @@ async.parallel([
             secure: false, // true for 465, false for other ports
             auth: {
                 user: "21huyhoang09@gmail.com", // generated ethereal user
-                pass: "huyhoang2109" // generated ethereal password
+                pass: "hokilashop" // generated ethereal password
             }
           });
 
@@ -323,7 +323,7 @@ async.parallel([
             secure: false, // true for 465, false for other ports
             auth: {
                 user: "21huyhoang09@gmail.com", // generated ethereal user
-                pass: "huyhoang2109" // generated ethereal password
+                pass: "hokilashop" // generated ethereal password
             }
           });
 
