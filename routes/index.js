@@ -21,11 +21,23 @@ router.use(session({secret: 'mySecret'}));
 router.use(passport.initialize());
 router.use(passport.session());
 const nodemailer = require('nodemailer')
+const multer = require('multer')
 // connection and models
 const db = require('../models/connection');
 const productSchema = require('../models/product');
 const accountSchema = require('../models/account');
 const billSchema = require('../models/bill');
+
+// upload file
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './public/images')
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+var upload = multer({storage:storage})
 
 // get database
 const async = require('async')
@@ -793,6 +805,9 @@ async.parallel([
       })
 
 
+      router.post('/upload', upload.single('file'), function(req, res) {
+        res.redirect("/manage-products")
+      })
     }
     else {
       console.log(err)
