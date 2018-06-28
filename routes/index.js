@@ -11,6 +11,7 @@ const getPageItems = require('../views/views').getPageItems;
 const getCartProduct = require('../views/views').getCartProduct;
 const getCartProductListHTML = require('../views/views').getCartProductListHTML;
 const getOrderRowTableHTML = require('../views/views').getOrderRowTableHTML;
+const getProducerRowTableHTML = require('../views/views').getProducerRowTableHTML;
 // bussiness
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -27,6 +28,7 @@ const db = require('../models/connection');
 const productSchema = require('../models/product');
 const accountSchema = require('../models/account');
 const billSchema = require('../models/bill');
+const producerSchema = require('../models/producer');
 
 // upload file
 var storage = multer.diskStorage({
@@ -50,6 +52,9 @@ async.parallel([
   },
   function(cb) {
     billSchema.find({}, cb)
+  },
+  function(cb) {
+    producerSchema.find({}, cb)
   }
 ], function(err, results) {
     if(err == null) {
@@ -57,6 +62,7 @@ async.parallel([
       var productsList = results[0]
       var accountsList = results[1]
       var billsList = results[2]
+      var producersList = results[3]
       var listRegister = []
       // controller
       // hien thi san pham
@@ -591,7 +597,7 @@ async.parallel([
               else {
                 for (var i = 0; i < accountsList.length; i++) {
                   if (accountsList[i].username === req.body.username) {
-                    accountSchema.splice(i, 1)
+                    accountsList.splice(i, 1)
                     break
                   }
                 }
@@ -807,6 +813,68 @@ async.parallel([
 
       router.post('/upload', upload.single('file'), function(req, res) {
         res.redirect("/manage-products")
+      })
+
+
+      // quan ly nha san xuat
+      router.get("/manage-producers", function(req, res) {
+        if (req.isAuthenticated()) {
+          if (req.user.role == "Quanly") {
+            res.render("admin-producer", {
+              layout: "admin-layout",
+              title: "Manage Producers",
+              name: req.user.username,
+              items: getProducerRowTableHTML(producersList)
+            })
+            return
+          }
+        }                    
+        res.render("error")
+      })
+
+      router.post("/add-producer", function(req, res) {
+        if(req.isAuthenticated()) {
+          if (req.user.role == "Quanly") {
+            var producer = {
+              name: req.body.name,
+            }
+            var new_producer = new producerSchema(producer)
+            new_producer.save(function(err) {
+              if (err) {
+                console.log(err)
+              }
+              else {
+                producersList.push(producer)
+              }
+            })
+          }
+          res.redirect("/manage-producers")
+          return
+        }
+        res.render("error")
+      })
+
+      router.post("/delete-producer", function(req, res) {
+        if(req.isAuthenticated()) {
+          if(req.user.role == "Quanly") {
+            producerSchema.deleteOne({name: req.body.name}, function(err) {
+              if (err) {
+                console.log(err)
+              }
+              else {
+                for (var i = 0; i < producersList.length; i++) {
+                  if (producersList[i].name === req.body.name) {
+                    producersList.splice(i, 1)
+                    break
+                  }
+                }
+              }
+            })
+            res.redirect("/manage-producers")
+            return
+          }
+        }
+        res.render("error")
       })
     }
     else {

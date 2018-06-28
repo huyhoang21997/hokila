@@ -307,6 +307,18 @@ function getOrderRowTableHTML(billsList) {
   return new DOMParser().parseFromString(html_string);
 }
 
+function getProducerRowTableHTML(producersList) {
+  var html_string = '';
+  for (var i = 0; i < producersList.length; i++) {
+      html_string += '<tr ondblclick="deleteProducer(\''
+      + producersList[i].name + '\',\''
+      + '\')">';
+      html_string += '<td>' + producersList[i].name + '</td>'; 
+      html_string += '</tr>';
+  }
+  return new DOMParser().parseFromString(html_string);
+}
+
 module.exports.getHTMLProduct = getHTMLProduct;
 module.exports.getHTMLRowTable = getHTMLRowTable;
 module.exports.getTypeMenu = getTypeMenu;
@@ -317,3 +329,4 @@ module.exports.getPageItems = getPageItems;
 module.exports.getCartProduct = getCartProduct;
 module.exports.getCartProductListHTML = getCartProductListHTML;
 module.exports.getOrderRowTableHTML = getOrderRowTableHTML;
+module.exports.getProducerRowTableHTML = getProducerRowTableHTML;
