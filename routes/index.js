@@ -82,65 +82,6 @@ async.parallel([
         }
       })
 
-      router.get("/info/:request", function(req, res) {
-
-
-        var request = ""
-        if(req.isAuthenticated()) {
-          if(req.user.role == "Khachhang") {
-            if (req.params.request == 'pwupdated') {
-              request = "alert('Your password was updated');"
-            }
-            else {
-              request = "alert('Old password not correct');"
-            }
-            res.render("index", {
-              display3: "block",
-              display4: "block",
-              display1: "none",
-              display2: "none",
-              request: request,
-              name: req.user.username,
-              producer: "Hot",
-              items: getHTMLProduct(productsList, null, null, null, "../images/"),
-              smartphone_menu: getTypeMenu(productsList)
-            })
-          }
-          else {
-            res.render("admin-home", {
-              layout: "admin-layout",
-              title: "Home",
-              name: req.user.username,
-            })
-          }
-        }
-        else {
-          if (req.params.request == "validate") {
-            request = "alert('Your account was created. Please active by your email')"
-          }
-          else if (req.params.request == "error") {
-            request = "alert('Email or username was used by another user')"
-          }
-          else if (req.params.request == "exist") {
-            request = "alert('Your password was sent to your email')"
-          }
-          else {
-            request = "alert('Cannot find your email')"
-          }
-
-          res.render("index", {
-            display1: "block",
-            display2: "block",
-            display3: "none",
-            display4: "none",
-            request: request,
-            producer: "All",
-            items: getHTMLProduct(productsList, null, null, null, "../images/"),
-            smartphone_menu: getTypeMenu(productsList)
-          })
-        }
-      })
-
       router.get("/details/:productId", function(req, res) {
         var display1, display2, display3, display4, name, role = null, name = null, state = null
         if (!req.isAuthenticated()) {
@@ -342,10 +283,10 @@ async.parallel([
                   return console.log(error);
               }
           });
-          res.redirect("/info/validate")
+          res.redirect("/?info=validate")
         }
         else {
-          res.redirect("/info/error")
+          res.redirect("/?info=error")
         }
       })
 
@@ -371,7 +312,7 @@ async.parallel([
         })
         // gui email goi y mat khau hien tai
         if (user == null) {
-          res.redirect("/info/notexist")
+          res.redirect("/?info=notexist")
         }
         else {
           // create reusable transporter object using the default SMTP transport
@@ -399,7 +340,7 @@ async.parallel([
                   return console.log(error);
               }
           });
-          res.redirect("/info/exist")
+          res.redirect("/?info=exist")
         }
       })
 
@@ -418,10 +359,10 @@ async.parallel([
               console.log('Thay doi mat khau thanh cong')
             }
           })
-          res.redirect("/info/pwupdated")
+          res.redirect("/?info=pwupdated")
         }
         else {
-          res.redirect("/info/notcorrect")
+          res.redirect("/?info=notcorrect")
         }
       })
 
