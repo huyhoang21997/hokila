@@ -1,0 +1,115 @@
+<style>
+    label {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    /*input[type="date"] {
+        padding: 6px;
+        border: 1px solid #e7e7e7;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        min-width: 60px;
+    }*/
+</style>
+
+<div class="container_fullwidth">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="title">Your Profile</h3>
+            </div>
+        </div>
+
+        <div class="container">
+                    <div class="row" id="username_profile">
+                        <div class="col-md-3 col-sm-3" style="padding: 16px 15px">
+                            <label for="username">Username:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9" style="margin: 8px 0">
+                            <input type="text" readonly name="username" id="username" value="{{username}}" style="width: 100%">
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3" style="padding: 16px 15px">
+                            <label for="firstname">Firstname:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9" style="margin: 8px 0">
+                            <input type="text" name="firstname" id="firstname" value="{{firstname}}" style="width: 100%">
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3" style="padding: 16px 15px">
+                            <label for="lastname">Lastname:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9" style="margin: 8px 0">
+                            <input type="text" name="lastname" id="lastname" value="{{lastname}}" style="width: 100%">
+                        </div>       
+                    </div>
+                    <div class="row" id="email_profile">
+                        <div class="col-md-3 col-sm-3" style="padding: 16px 15px">
+                            <label for="email">Email:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9" style="margin: 8px 0">
+                            <input type="text" name="email" value="{{email}}" readonly style="width: 100%">
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3" style="padding: 16px 15px">
+                            <label for="phone">Phone:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9" style="margin: 8px 0">
+                            <input type="text" name="phone" id="phone" value="{{phone}}" style="width: 100%">
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3" style="padding: 16px 15px">
+                            <label for="address">Address:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9" style="margin: 8px 0">
+                            <input type="text" name="address" id="address" value="{{address}}" style="width: 100%">
+                        </div>       
+                    </div>
+                    {{!-- <div class="row">
+                        <div class="col-md-3 col-sm-3" style="padding: 16px 15px">
+                            <label for="birthday">Birthday:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9" style="margin: 8px 0">
+                            <input type="date" name="birthday" id="birthday">
+                            <input type="text" readonly name="birthday" id="birthday_view" value="{{birthday}}" style="width: 100%">
+                        </div>       
+                    </div> --}}
+                    {{!-- <div class="row">
+                        <div class="col-md-3 col-sm-3" style="padding: 16px 15px">
+                            <label for="gender">Gender:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9" style="margin: 8px 0">
+                            <select  name="gender" id="gender" style="margin-left:0; color:#434343">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                            <input type="text" readonly name="gender" id="gender_view" value="{{gender}}" style="width: 100%">
+                        </div>       
+                    </div> --}}
+
+                    <div class="row" id="change_profile">
+                        <div class="usermenu" style="width:100%">
+                            <button id="change" type="submit">Change</button>
+                        </div>
+                    </div>
+
+                    <div class="row" id="save_profile">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="usermenu" style="width:100%">
+                                <button id="save" type="submit">Save</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="usermenu" style="width:100%">
+                                <button style="background-color:#f99135;" id="cancel" type="submit">Cancel</button>
+                            </div>
+                        </div>       
+                    </div>
+        </div>
+    </div>
+</div>

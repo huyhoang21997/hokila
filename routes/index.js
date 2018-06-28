@@ -718,6 +718,81 @@ async.parallel([
           res.end('Fail')
         }
       })
+
+
+      router.get('/profile/:username', function(req, res) {
+        var display1, display2, display3, display4, name, role = null, name = null, state = null
+        if (req.isAuthenticated()) {
+           if (req.user.role == "Khachhang") {
+            display1 = "none"
+            display2 = "none"
+            display3 = "block"
+            display4 = "block"
+            role = "Khachhang"
+            name = req.user.username
+            state = "disabled"
+
+            var user = accountsList.find(function(element) {
+              return element.username == req.params.username
+            })
+
+            res.render('profile', {title: 'Your Profile',
+              display1: display1,
+              display2: display2,
+              display3: display3,
+              display4: display4,
+              name: name,
+              username: user.username,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              email: user.email,
+              phone: user.phone,
+              address: user.address,
+              //birthday: user.birthday,
+              //gender: user.gender,
+              smartphone_menu: getTypeMenu(productsList)
+            })
+          }  
+        }
+      });
+
+
+      router.post("/edit-profile", function(req, res) {
+        if(req.isAuthenticated()) {
+          if (req.user.role == "Khachhang") {
+            accountSchema.updateOne(
+              {username: req.body.username},
+              {
+                $set: {
+                  firstname: req.body.firstname,
+                  lastname: req.body.lastname,
+                  phone: req.body.phone,
+                  address: req.body.address
+                  //birthday: req.body.birthday,
+                  //gender: req.body.gender
+                }
+              }, function(err) {
+              if (err) {
+                console.log(err)
+              }
+              else {
+                for (var i = 0; i < accountsList.length; i++) {
+                  if (accountsList[i].username === req.body.username) {
+                    accountsList[i].firstname = req.body.firstname
+                    accountsList[i].lastname = req.body.lastname
+                    accountsList[i].phone = req.body.phone
+                    accountsList[i].address = req.body.address
+                    break
+                  }
+                }          
+              }
+            })
+            res.send('success')
+          }
+        }
+      })
+
+
     }
     else {
       console.log(err)
