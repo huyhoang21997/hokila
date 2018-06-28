@@ -128,12 +128,16 @@ function getAccountHTMLRowTable(accountsList) {
   for (var i = 0; i < accountsList.length; i++) {
       html_string += '<tr ondblclick="editOrDeleteAccount(\''
       + accountsList[i].username + '\',\''
-      + accountsList[i].password + '\',\''
+      + accountsList[i].email + '\',\''
+      + accountsList[i].firstname + '\',\''
+      + accountsList[i].lastname + '\',\''
+      + accountsList[i].phone + '\',\''
+      + accountsList[i].address + '\',\''
       + accountsList[i].role + '\',\''
       + '\')">';
 
       html_string += '<td>' + accountsList[i].username + '</td>';
-      html_string += '<td>' + accountsList[i].password + '</td>';
+      html_string += '<td>' + accountsList[i].email + '</td>';
       html_string += '<td>' + accountsList[i].role + '</td>';      
       
       html_string += '</tr>';

@@ -538,6 +538,11 @@ async.parallel([
             var account = {
               username: req.body.username,
               password: req.body.password,
+              email: req.body.email,
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              phone: req.body.phone,
+              address: req.body.address,
               role: req.body.role
             }
             var new_account = new accountSchema(account)
@@ -563,7 +568,11 @@ async.parallel([
               {username: req.body.username},
               {
                 $set: {
-                  password: req.body.password,
+                  email: req.body.email,
+                  firstname: req.body.firstname,
+                  lastname: req.body.lastname,
+                  phone: req.body.phone,
+                  address: req.body.address,
                   role: req.body.role
                 }
               }, function(err) {
@@ -573,7 +582,11 @@ async.parallel([
               else {
                 for (var i = 0; i < accountsList.length; i++) {
                   if (accountsList[i].username === req.body.username) {
-                    accountsList[i].password = req.body.password
+                    accountsList[i].email = req.body.email,
+                    accountsList[i].firstname = req.body.firstname,
+                    accountsList[i].lastname = req.body.lastname,
+                    accountsList[i].phone = req.body.phone,
+                    accountsList[i].address = req.body.address,
                     accountsList[i].role = req.body.role
                     break
                   }

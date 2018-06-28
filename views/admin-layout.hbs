@@ -91,9 +91,44 @@
             document.getElementById('id04').style.display='block';
         }
 
-        function editOrDeleteAccount(username, password, role) {
+        function editOrDeleteAccount(username, email, firstname, lastname, phone, address, role) {
             document.getElementById("username").value = username;
-            document.getElementById('password').value = password;
+
+            if (email === "undefined") {
+                document.getElementById("email").value = "";
+            }
+            else {
+                document.getElementById("email").value = email;
+            }
+            
+            if (firstname === "undefined") {
+                document.getElementById("firstname").value = "";
+            }
+            else {
+                document.getElementById("firstname").value = firstname;
+            }
+
+            if (lastname === "undefined") {
+                document.getElementById("lastname").value = "";
+            }
+            else {
+                document.getElementById("lastname").value = lastname;
+            }
+
+            if (phone === "undefined") {
+                document.getElementById("phone").value = "";
+            }
+            else {
+                document.getElementById("phone").value = phone;
+            }
+
+            if (address === "undefined") {
+                document.getElementById("address").value = "";
+            }
+            else {
+                document.getElementById("address").value = address;
+            }
+            
             document.getElementById('role').value = role;
             document.getElementById('id06').style.display='block';
         }
