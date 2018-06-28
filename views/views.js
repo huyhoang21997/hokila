@@ -285,11 +285,22 @@ function getOrderRowTableHTML(billsList) {
       html_string += '<td>' + billsList[i].date.getDate() + '/' + (billsList[i].date.getMonth() + 1) + '/' + billsList[i].date.getFullYear() + ' ' + billsList[i].date.getHours() + ':' + billsList[i].date.getMinutes() + '</td>'
       html_string += '<td>' + billsList[i].total_count + '</td>';   
       html_string += '<td>' + billsList[i].total_price.toLocaleString('vi') + '₫</td>';
-      html_string += '<td><select name="state">\
-                        <option value="Not Delivered">Not Delivered</option>\
-                        <option value="Delivering">Delivering</option>\
-                        <option value="Delivered">Delivered</option>\
-                      </select></td>';         
+      var s1 = '', s2 = '', s3 = ''
+      switch(billsList[i].state) {
+        case 'Not delivered':
+        s1 = 'selected'
+        break
+        case 'Delivering':
+        s2 = 'selected'
+        break
+        case 'Delivered':
+        s3 = 'selected'
+      }
+      html_string += '<td><select name="state" onchange="updateBill(' + i + ')">\
+                        <option ' + s1 + ' value="Not Delivered">Not Delivered</option>\
+                        <option ' + s2 + ' value="Delivering">Delivering</option>\
+                        <option ' + s3 + ' value="Delivered">Delivered</option>\
+                      </select></td>';
       html_string += '</tr>';
   }
   

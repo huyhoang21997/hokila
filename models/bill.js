@@ -19,7 +19,8 @@ var billSchema = new Schema({
     address: {type: String, required: true},
     total_count: {type: Number, required: true},
     total_price: {type: Number, required: true},
-    saler_name: {type: String}
+    saler_name: {type: String},
+    state: {type: String, enum: ['Not delivered', 'Delivering', 'Delivered']}
 });
 
 module.exports = mongoose.model('bill', billSchema);

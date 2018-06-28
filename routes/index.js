@@ -16,6 +16,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('../business/passport');
 router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json())
 router.use(session({secret: 'mySecret'}));
 router.use(passport.initialize());
 router.use(passport.session());
@@ -595,108 +596,128 @@ async.parallel([
 
 
 
-    router.get('/shopping-cart', function(req, res) {
-      var display1, display2, display3, display4, name, role = null, name = null, state = null
-        if (!req.isAuthenticated()) {
-          display1 = "block"
-          display2 = "block"
-          display3 = "none"
-          display4 = "none"
-        }
-        else if (req.user.role == "Khachhang") {
-          display1 = "none"
-          display2 = "none"
-          display3 = "block"
-          display4 = "block"
-          role = "Khachhang"
-          name = req.user.username
-          state = "disabled"
-        }
-        else {
-          role = "Quanly"
-        }
-        if (role != "Quanly") {
-          let result = getCartProductListHTML(req.cookies.list);
-          if (result == null) {
-            result = {
-              html_object: "",
-              total_money: "0"
-            }
+      router.get('/shopping-cart', function(req, res) {
+        var display1, display2, display3, display4, name, role = null, name = null, state = null
+          if (!req.isAuthenticated()) {
+            display1 = "block"
+            display2 = "block"
+            display3 = "none"
+            display4 = "none"
           }
-
-
-          res.render('cart', {title: 'Your Shopping Cart',
-            display1: display1,
-            display2: display2,
-            display3: display3,
-            display4: display4,
-            name: name,
-            content_cart: result.html_object,
-            total: result.total_money.toLocaleString('vi') + '₫',
-            smartphone_menu: getTypeMenu(productsList)
-          })
-        }
-    });
-
-    router.post('/shopping-cart/:id', function(req, res) {
-      res.send(getCartProduct(productsList, req.params.id));
-    });
-
-
-    router.post('/checkout/:username', function(req, res) {
-      if(req.isAuthenticated()) {
-        var bill = {
-          customer: req.params.username,
-          date: req.body.date,
-          state: "Not delivered",
-          product: JSON.parse(req.body.list),
-          fullname: req.body.fullname,
-          phone: req.body.phone,
-          address: req.body.address,
-          total_count: req.body.total_count,
-          total_price: req.body.total_price
-        };         
-            
-        var new_bill = new billSchema(bill);
-        new_bill.save(function(err) {
-          if (err) {
-            console.log("Fail");
+          else if (req.user.role == "Khachhang") {
+            display1 = "none"
+            display2 = "none"
+            display3 = "block"
+            display4 = "block"
+            role = "Khachhang"
+            name = req.user.username
+            state = "disabled"
           }
           else {
-            console.log("success");
-            billsList.push(new_bill)
+            role = "Quanly"
           }
-        });
-        res.send('success');
-      }
-    });
-
-    router.get('/manage-orders', function(req, res) {
-      var href = '', state = '', action = '';
-      if (req.isAuthenticated()) {
-        res.render('admin-order', {
-          layout: 'admin-layout',
-          title: "Manage Orders",
-          name: req.user.username,
-          items: getOrderRowTableHTML(billsList)
-        });
-      }
-      else {
-        res.render('error');
-      }
-    });
-
-    router.get('/data/bill/:id', function(req, res) {
-      var bill = billsList.find(element => element._id == req.params.id)
-      res.writeHead(200, {"Content-Type": "text/JSON"})
-      res.write(JSON.stringify(bill))
-      res.end()
-    })
+          if (role != "Quanly") {
+            let result = getCartProductListHTML(req.cookies.list);
+            if (result == null) {
+              result = {
+                html_object: "",
+                total_money: "0"
+              }
+            }
 
 
+            res.render('cart', {title: 'Your Shopping Cart',
+              display1: display1,
+              display2: display2,
+              display3: display3,
+              display4: display4,
+              name: name,
+              content_cart: result.html_object,
+              total: result.total_money.toLocaleString('vi') + '₫',
+              smartphone_menu: getTypeMenu(productsList)
+            })
+          }
+      });
+
+      router.post('/shopping-cart/:id', function(req, res) {
+        res.send(getCartProduct(productsList, req.params.id));
+      });
 
 
+      router.post('/checkout/:username', function(req, res) {
+        if(req.isAuthenticated()) {
+          var bill = {
+            customer: req.params.username,
+            date: req.body.date,
+            state: "Not delivered",
+            product: JSON.parse(req.body.list),
+            fullname: req.body.fullname,
+            phone: req.body.phone,
+            address: req.body.address,
+            total_count: req.body.total_count,
+            total_price: req.body.total_price,
+            state: 'Not delivered'
+          };         
+              
+          var new_bill = new billSchema(bill);
+          new_bill.save(function(err) {
+            if (err) {
+              console.log("Fail");
+            }
+            else {
+              console.log("success");
+              billsList.push(new_bill)
+            }
+          });
+          res.send('success');
+        }
+      });
 
+      router.get('/manage-orders', function(req, res) {
+        var href = '', state = '', action = '';
+        if (req.isAuthenticated()) {
+          res.render('admin-order', {
+            layout: 'admin-layout',
+            title: "Manage Orders",
+            name: req.user.username,
+            items: getOrderRowTableHTML(billsList)
+          });
+        }
+        else {
+          res.render('error');
+        }
+      });
+
+      router.get('/data/bill/:id', function(req, res) {
+        var bill = billsList.find(element => element._id == req.params.id)
+        res.writeHead(200, {"Content-Type": "text/JSON"})
+        res.write(JSON.stringify(bill))
+        res.end()
+      })
+
+
+      router.post('/updateBill', function(req, res) {
+        if (req.user.role == "Quanly") {
+          billSchema.updateOne(
+            {_id: req.body.id},
+            {
+              $set: {
+                state: req.body.state,
+              }
+            }, function(err) {
+            if (err) {
+              console.log(err)
+            }
+            else {
+              billsList.find(element => element._id == req.body.id).state = req.body.state          
+            }}
+          )
+          res.end('Success')
+        }
+        else {
+          res.end('Fail')
+        }
+      })
     }
     else {
       console.log(err)
